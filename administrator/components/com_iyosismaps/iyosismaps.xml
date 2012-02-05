@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6.0" method="upgrade">
+	<name>Iyosis Maps</name>
+	<creationDate>20 March 2011</creationDate>
+	<author>Iyosis.com</author>
+	<authorEmail>remzi@iyosis.com</authorEmail>
+	<authorUrl>http://www.iyosis.com</authorUrl>
+	<copyright>Iyosis.com</copyright>
+	<license>GNU General Public License v3 http://www.gnu.org/licenses/gpl.html</license>
+	<version>1.8.1</version>
+	<releaseDate>13 June 2011</releaseDate>
+	<releaseType>Major update</releaseType>
+	<downloadUrl>http://www.iyosis.com/</downloadUrl>
+	<description>Iyosis Maps</description>
+
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<files folder="site">
+		<filename>iyosismaps.php</filename>
+		<filename>index.html</filename>
+		<filename>controller.php</filename>
+		<folder>models</folder>
+		<folder>views</folder>
+		<folder>language</folder>
+	</files>
+
+	<administration>
+
+		<menu img="components/com_iyosismaps/media/images/icon-16-iyosismaps.png">COM_IYOSISMAPS</menu>
+		<submenu>
+			<menu view="maps" link="option=com_iyosismaps&amp;view=maps" img="components/com_iyosismaps/media/images/icon-16-maps.png">COM_IYOSISMAPS_MAPS</menu>
+			<menu view="markers" link="option=com_iyosismaps&amp;view=markers" img="components/com_iyosismaps/media/images/icon-16-markers.png">COM_IYOSISMAPS_MARKERS</menu>
+			<menu view="icons" link="option=com_iyosismaps&amp;view=icons" img="components/com_iyosismaps/media/images/icon-16-icons.png">COM_IYOSISMAPS_ICONS</menu>
+			<menu view="polylines" link="option=com_iyosismaps&amp;view=polylines" img="components/com_iyosismaps/media/images/icon-16-polylines.png">COM_IYOSISMAPS_POLYLINES</menu>
+			<menu view="polygons" link="option=com_iyosismaps&amp;view=polygons" img="components/com_iyosismaps/media/images/icon-16-polygons.png">COM_IYOSISMAPS_POLYGONS</menu>
+			<menu link="option=com_categories&amp;view=categories&amp;extension=com_iyosismaps" img="templates/bluestork/images/menu/icon-16-category.png">COM_IYOSISMAPS_CATEGORIES</menu>
+		</submenu>
+
+		<files folder="admin">
+			<filename>controller.php</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<filename>iyosismaps.php</filename>
+			<folder>sql</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>media</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_iyosismaps.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_iyosismaps.sys.ini</language>
+		</languages>
+	</administration>
+</extension>
+

@@ -1,0 +1,25 @@
+/* Copyright (C) YOOtheme GmbH, YOOtheme Proprietary Use License (http://www.yootheme.com/license) */
+
+.menu-dropdown a.level1,
+.menu-dropdown span.level1,
+.menu-sidebar a.level1 > span,
+.menu-sidebar span.level1 > span { font-size: 13px; font-family: TitilliumText22LRegular; }
+
+.menu-dropdown a.level1 > span,
+.menu-dropdown span.level1 > span { font-size: 13px; font-family: TitilliumText22LRegular; }
+
+.menu-dropdown .level1 .level1 span.subtitle { font-size: 13px; font-family: TitilliumText22LRegular;}
+
+.menu-sidebar span.level2> span { font-size: 12px; font-family: TitilliumText22LRegular; }
+
+.menu-dropdown a.level2 > span,
+.menu-dropdown span.level2 > span { font-size: 12px; font-family: TitilliumText22LRegular; }
+
+.menu-dropdown .level1 .level2 span.subtitle { font-size: 12px; font-family: TitilliumText22LRegular;}
+
+.menu-sidebar span.level3> span { font-size: 10px; font-family: TitilliumText22LRegular; }
+
+.menu-dropdown a.level3 > span,
+.menu-dropdown span.level3 > span { font-size: 10px; font-family: TitilliumText22LRegular; }
+
+.menu-dropdown .level1 .level3 span.subtitle { font-size: 10px; font-family: TitilliumText22LRegular;}

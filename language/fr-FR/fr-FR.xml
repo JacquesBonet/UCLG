@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.7" client="site">
+    <tag>fr-FR</tag>
+	<name>French (FR)</name>
+    <description>French site language for Joomla 1.7</description>
+	<version>1.7.2</version>
+	<creationDate>2011-11-14</creationDate>
+	<author>French translation team : joomla.fr</author>
+	<authorEmail>traduction@joomla.fr</authorEmail>
+	<authorUrl>www.joomla.fr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters &amp; joomla.fr. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<metadata>
+		<name>French (FR)</name>
+		<tag>fr-FR</tag>
+		<rtl>0</rtl>
+		<locale>fr_FR.utf8, fr_FR.UTF-8, fr_FR.UTF-8@euro, fr_FR, fre_FR, fr, france</locale>
+		<firstDay>1</firstDay>
+	</metadata>
+	<params />
+</metafile>

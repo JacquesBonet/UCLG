@@ -1,0 +1,1003 @@
+/*
+
+This file is part of Ext JS 4
+
+Copyright (c) 2011 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+
+If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
+
+*/
+var generalGrid;
+var lglGrid;
+var financeGrid;
+
+Ext.Loader.setConfig({enabled: true});
+Ext.Loader.setPath('Ext.ux', '/app/ux');
+Ext.require([
+    'Ext.grid.*',
+    'Ext.data.*',
+    'Ext.ux.grid.FiltersFeature',
+    'Ext.ux.grid.HeaderToolTip',
+    'Ext.toolbar.Paging'
+]);
+
+Ext.define('modelGeneral', {
+    extend: 'Ext.data.Model',
+    fields: [{
+        name: 'id',
+        type: 'int'
+    }, {
+        name: 'name'
+    }, {
+        name: 'year'
+    }, {
+        name: 'IDH',
+        type: 'float'
+    }, {
+        name: 'Population',
+        type: 'float'
+    }, {
+        name: 'TotalArea',
+        type: 'int'
+    }, {
+        name: 'UrbanPopulation',
+        type: 'int'
+    }, {
+        name: 'CapitalCity'
+    }, {
+        name: 'CapitalPopulation',
+        type: 'float'
+    }, {
+        name: 'MetropolitanPopulation',
+        type: 'float'
+    }, {
+        name: 'GDP',
+        type: 'int'
+    }, {
+        name: 'GDPCapita',
+        type: 'int'
+    }, {
+        name: 'GDPPpp',
+        type: 'int'
+    }]
+});
+
+Ext.define('modelLGL', {
+    extend: 'Ext.data.Model',
+    fields: [ {
+        name: 'name'
+    }, {
+        name: 'year'
+    }, {
+        name: 'StructureState'
+    }, {
+        name: 'FederatedStates'
+    }, {
+        name: 'LGL1Details'
+    }, {
+        name: 'LGL1Total',
+        type: 'int'
+    }, {
+        name: 'LGL2Details'
+    }, {
+        name: 'LGL2Total',
+        type: 'int'
+    }, {
+        name: 'LGL3Details'
+    }, {
+        name: 'LGL3Total',
+        type: 'int'
+    }, {
+        name: 'LGL4Details'
+    }, {
+        name: 'LGL4Total',
+        type: 'int'
+    }]
+});
+
+Ext.define('modelFinance', {
+    extend: 'Ext.data.Model',
+    fields: [ {
+        name: 'name'
+    }, {
+        name: 'year'
+    }, {
+        name: 'PFGExpenditure'
+    }, {
+        name: 'PFGCapital'
+    }, {
+        name: 'PFGRevenue'
+    }, {
+        name: 'PFGGross'
+    }, {
+        name: 'PFLExpenditure'
+    }, {
+        name: 'PFLCapital'
+    }, {
+        name: 'PFLRevenue'
+    }, {
+        name: 'PFLGross'
+    },{
+        name: 'ExpendituGDP'
+    }, {
+        name: 'ExpendituGG'
+    }, {
+        name: 'ExpendituInhabitant'
+    }, {
+        name: 'PFGGross'
+    }, {
+        name: 'RevenueGDP'
+    }, {
+        name: 'RevenueGG'
+    }, {
+        name: 'RevenueInhabitant'
+    }, {
+        name: 'InvestmeGDP'
+    },{
+        name: 'InvestmeGG'
+    }, {
+        name: 'InvestmeInhabitant'
+    }, {
+        name: 'DebtGDP'
+    }, {
+        name: 'DebtGG'
+    }, {
+        name: 'DebtInhabitant'
+    }]
+});
+
+
+
+
+Ext.define('modelFunctions', {
+    extend: 'Ext.data.Model',
+    fields: [ {
+        name: 'name'
+    }, {
+        name: 'year'
+    }, {
+        name: 'GeneralPublicServices'
+    }, {
+        name: 'PublicOrderSafety'
+    },{
+        name: 'EconomicAffairs'
+    }, {
+        name: 'EnvironmentProtection'
+    }, {
+        name: 'HousingCommunityAmenities'
+    }, {
+        name: 'Health'
+    }, {
+        name: 'RecreationCultureReligion'
+    }, {
+        name: 'Education'
+    }, {
+        name: 'Sanitation'
+    }, {
+        name: 'SocialProtection'
+    }, {
+        name: 'Transport'
+    }, {
+        name: 'other1'
+    }, {
+        name: 'other2'
+    }, {
+        name: 'other3'
+    }]
+});
+
+Ext.define('Product', {
+    extend: 'Ext.data.Model',
+    fields: [{
+        name: 'id',
+        type: 'int'
+    }, {
+        name: 'year'
+    }, {
+        name: 'company'
+    }, {
+        name: 'price',
+        type: 'float'
+    }, {
+        name: 'date',
+        type: 'date',
+        dateFormat: 'Y-m-d'
+    }, {
+        name: 'visible',
+        type: 'boolean'
+    }, {
+        name: 'size'
+    }]
+});
+
+Ext.onReady(function(){
+
+    Ext.QuickTips.init();
+
+  
+    ////////////////////////////////////////////////////////////////////
+    // GENERAL GRID
+    ////////////////////////////////////////////////////////////////////
+
+    var generalStore = Ext.create('Ext.data.JsonStore', {
+        // store configs
+        autoDestroy: true,
+        model: 'modelGeneral',
+        proxy: {
+            type: 'ajax',
+            url: '/app/keyindicators/grid-filter.php',
+            reader: {
+                type: 'json',
+                root: 'data',
+                idProperty: 'id',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: true,
+        sorters: [{
+            property: 'name',
+            direction: 'ASC'
+        }],
+        pageSize: 16
+    });
+
+    var labels = { name: 'Name', year: 'Year', country: 'Country', population: 'Population', totalArea: 'Total Area',
+                   urbanPopulation: 'Urban Population', capital: 'Capital', capitalCity: 'Capital City', grossDomesticProduct: 'Gross Domestic Product',
+                   population: 'Population', metropolitan: 'Metropolitan Population', countryPopulation: 'vs Country Population',
+                   general: 'General', perCapita: 'per Capita', byPPP: 'by PPP', grossDomesticProductPerPurchasingPowerParity: 'Gross Domestic Product per purchasing power parity',
+                   grossDomesticProductPerCapita: 'Gross Domestic Product per Capita'};
+
+    // localisation
+    if (Ext.util.Cookies.get( "uclg_lang") == "fr")
+    {
+        labels = { name: 'Nom', year: 'Année', country: 'Pays', population: 'Population', totalArea: 'Superficie',
+                           urbanPopulation: 'Population Urbaine', capital: 'Capitale', capitalCity: 'Nom', grossDomesticProduct: 'Produit intérieur brut',
+                           population: 'Population', metropolitan: 'Agglomération', countryPopulation: '% Population / Pays',
+                           general: 'Generale', perCapita: 'par habitant', byPPP: 'par PPP', grossDomesticProductPerPurchasingPowerParity: 'Produit intérieur brut par parité de pouvoir d\'achat',
+                           grossDomesticProductPerCapita: 'Produit intérieur brut par habitant'};
+    }
+    else
+    if (Ext.util.Cookies.get( "uclg_lang") == "es")
+    {
+        labels = { name: 'Nombre', year: 'Año', country: 'Pais', population: 'Población', totalArea: 'Área Total',
+                           urbanPopulation: 'Población urbana', capital: 'Capital', capitalCity: 'Nombre', grossDomesticProduct: 'Producto Interno Bruto',
+                           population: 'Población', metropolitan: 'Aglomeración', countryPopulation: 'vs Pais',
+                           general: 'General', perCapita: 'per Cápita', byPPP: 'per PPP', grossDomesticProductPerPurchasingPowerParity: 'Producto Interno Bruto por paridad de poder adquisitivo',
+                           grossDomesticProductPerCapita: 'Producto Interno Bruto per cápita'};
+    }
+
+    var createGeneralColumns = function (finish, start) {
+
+        var columns = [{
+	            dataIndex: 'name',
+	            text: labels.name,
+	            sortable: true,
+	            width:100,
+	            tooltip: 'Name of the Country'
+	        },{
+	            dataIndex: 'year',
+	            text: labels.year,
+	            sortable: true,
+	            width:45,
+	            tooltip: 'When the collected data have been done'
+	        },{
+	            text: labels.country,
+	            filterable: true,
+	            columns: [{
+		            dataIndex: 'IDH',
+		            text: 'IDH',
+		            width:48,
+		            sortable: true
+		        }, {
+		            dataIndex: 'Population',
+		            text: labels.population,
+		            width:78,
+		            sortable: true,
+		            tooltip: 'In million'
+		        }, {
+		            dataIndex: 'TotalArea',
+		            text: labels.totalArea,
+		            width:70,
+		            sortable: true,
+		            tooltip: 'Country area in km2'
+		        }, {
+		            dataIndex: 'UrbanPopulation',
+		            text: labels.urbanPopulation,
+		            width:95,
+		            sortable: false,
+		            tooltip: '% Population living on cities comparing to country population',
+		            renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+			            return value + '%';
+			        }
+		        }
+	        ]},{
+            text: labels.capital,
+            filterable: true,
+            columns: [{
+	            dataIndex: 'CapitalCity',
+	            sortable: true,
+	            text: labels.name,
+	            width:100
+	        }, {
+	            dataIndex: 'CapitalPopulation',
+	            text: labels.population,
+	            sortable: true,
+	            width:75,
+	            tootip : "Capital population in million"
+	        }, {
+	            dataIndex: 'MetropolitanPopulation',
+	            sortable: true,
+	            text: labels.metropolitan,
+	            width:78,
+	            tootip : "Capital population with agglomerations in million"
+	        }, {
+	            text: labels.countryPopulation,
+	            width:117,
+	            sortable: true,
+	            tooltip: 'Metropolitan capital population comparing to country population',
+	            renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+		            return ((record.data.MetropolitanPopulation * 100)/record.data.Population).toFixed(2) + '%';
+	            }
+		    }]
+        },  {
+            text: labels.grossDomesticProduct,
+            filterable: true,
+            columns: [{
+	            dataIndex: 'GDP',
+	            text: 'General',
+	            sortable: true,
+	            width:70,
+	            tooltip : "Gross Domestic Product"
+	        }, {
+	            dataIndex: 'GDPCapita',
+	            text: labels.perCapita,
+	            sortable: true,
+	            width:70,
+	            tooltip : labels.grossDomesticProductPerCapita
+	        }, {
+	            dataIndex: 'GDPPpp',
+	            text: labels.byPPP,
+	            sortable: true,
+	            width:70,
+	            tooltip : labels.grossDomesticProductPerPurchasingPowerParity
+	        }]
+        }];
+
+        return columns.slice(0, 10);
+    };
+    
+    var filters = {
+            ftype: 'filters',
+            // encode and local configuration options defined previously for easier reuse
+            encode: false, // json encode the filter query
+            local: false,   // defaults to false (remote filtering)
+            filters: [ { type: 'string', dataIndex: 'name'}, { type: 'numeric', dataIndex: 'year'}, { type: 'numeric', dataIndex: 'IDH'}, { type: 'numeric', dataIndex: 'Population'}, { type: 'numeric', dataIndex: 'TotalArea'}, { type: 'numeric', dataIndex: 'UrbanPopulation'}, 
+                       { type: 'string', dataIndex: 'CapitalCity'}, { type: 'numeric', dataIndex: 'CapitalPopulation'}, { type: 'numeric', dataIndex: 'MetropolitanPopulation'}, { type: 'numeric', dataIndex: 'GDP'}, { type: 'numeric', dataIndex: 'GDPCapita'}, 
+                       { type: 'numeric', dataIndex: 'GDPPpp'}]
+        };
+    
+    generalGrid = Ext.create('Ext.grid.Panel', {
+        border: false,
+        store: generalStore,
+        columns: createGeneralColumns(),
+        loadMask: true,
+        title:'General',
+        listeners: {
+            activate: function(tab){
+                generalStore.load();
+            }
+        },
+        features: [filters],
+        plugins: ['headertooltip'],
+        dockedItems: [Ext.create('Ext.toolbar.Paging', {
+            dock: 'bottom',
+            store: generalStore
+        })]
+    });
+
+    // clear filter button on bottom toolbar
+    generalGrid.child('pagingtoolbar').add([
+        '->',
+		{
+            text: 'Clear Filter Data',
+            handler: function () {
+                generalGrid.filters.clearFilters();
+            } 
+        }    
+    ]);
+
+    
+    
+    /////////////////////////////////////////////
+    // LGL Grid
+    ////////////////////////////////////////////
+    
+    var lglStore = Ext.create('Ext.data.JsonStore', {
+        // store configs
+        autoDestroy: true,
+        model: 'modelLGL',
+        proxy: {
+            type: 'ajax',
+            url: '/app/keyindicators/grid-filter.php',
+            reader: {
+                type: 'json',
+                root: 'data',
+                idProperty: 'id',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: true,
+        sorters: [{
+            property: 'name',
+            direction: 'ASC'
+        }],
+        pageSize: 16
+    });
+
+    labels = { name: 'Name', year: 'Year', country: 'Country',  state: 'State', structure: 'Structure', federated: 'Federated', localGovernmentsLevels: 'Local Governments Levels',
+        level1: '1st tiers', level1Total: '1st Total', level2: '2nd tiers', level2Total: '2nd Total', level3: '3rd tiers',  level3Total: '3nd Total',
+        level4: '4th tiers',  level4Total: '4th Total'};
+
+    // localisation
+    if (Ext.util.Cookies.get( "uclg_lang") == "fr")
+    {
+        labels = { name: 'Nom', year: 'Année', country: 'Pays', state: 'Etat',structure: 'Structure', federated: 'Federation', localGovernmentsLevels: 'Gouvernements Niveaux Locaux',
+            level1: '1er Niveau', level1Total: '1er Total', level2: '2ième Niveau', level2Total: '2ième Total', level3: '3ième Niveau',  level3Total: '3ième Total',
+            level4: '4ième Niveau',  level4Total: '4ième Total'};
+    }
+    else
+    if (Ext.util.Cookies.get( "uclg_lang") == "es")
+    {
+        labels = { name: 'Nombre', year: 'Año', country: 'Pais', state: 'Estado', structure: 'Estructura', federated: 'federación', localGovernmentsLevels: 'Niveles de los gobiernos locales',
+            level1: '1er Nivel', level1Total: '1er Total', level2: '2ª Nivel', level2Total: '2ª total', level3: '3ª Nivel',  level3Total: '3ª Total',
+            level4: '4ª Nivel',  level4Total: '4ª Total'};
+    }
+
+    var createLGLColumns = function (finish, start) {
+
+        var columns = [ {
+            dataIndex: 'name',
+            text: labels.name,
+            sortable: true,
+            width:95,
+            tooltip: 'Name of the Country'
+        }, {
+            dataIndex: 'year',
+            text: labels.year,
+            sortable: true,
+            width:38,
+            tooltip: 'When the collected data have been done'
+        }, {
+                text: labels.state,
+                filterable: true,
+                columns: [{
+                    dataIndex: 'StructureState',
+                    sortable: true,
+                    width:62,
+                    text: labels.structure
+                }, {
+                    dataIndex: 'FederatedStates',
+                    sortable: true,
+                    width:110,
+                    renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                         // create tooltip
+                        return '<div data-qtip="' + value + '">' + value + '</div>';
+                    },
+                    text: labels.federated
+                }]
+        }, {
+            text: labels.localGovernmentsLevels,
+            filterable: true,
+            columns: [{
+            	dataIndex: 'LGL1Details',
+            	sortable: true,
+            	width:126,
+                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                     // create tooltip
+                    return '<div data-qtip="' + value + '">' + value + '</div>';
+                },
+                text: labels.level1
+            },{
+            	dataIndex: 'LGL1Total',
+            	width:60,
+            	sortable: true,
+                text: labels.level1Total
+            },{
+            	dataIndex: 'LGL2Details',
+            	sortable: true,
+            	width:126,
+                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                     // create tooltip
+                    return '<div data-qtip="' + value + '">' + value + '</div>';
+                },
+                text: labels.level2
+            },{
+            	dataIndex: 'LGL2Total',
+            	sortable: true,
+            	width:60,
+                text: labels.level2Total
+            },{
+            	dataIndex: 'LGL3Details',
+            	sortable: true,
+            	width:120,
+                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                     // create tooltip
+                    return '<div data-qtip="' + value + '">' + value + '</div>';
+                },
+                text: labels.level3
+            },{
+            	dataIndex: 'LGL3Total',
+            	sortable: true,
+            	width:60,
+                text: labels.level3Total
+            },{
+            	dataIndex: 'LGL4Details',
+            	sortable: true,
+				width:94,
+				renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                     // create tooltip
+                    return '<div data-qtip="' + value + '">' + value + '</div>';
+                },
+                text: labels.level4
+            },{
+            	dataIndex: 'LGL4Total',
+            	sortable: true,
+            	width:60,
+                text: labels.level4Total
+            }]
+        }];
+
+        return columns;
+    };
+    
+    filters = {
+            ftype: 'filters',
+            // encode and local configuration options defined previously for easier reuse
+            encode: false, // json encode the filter query
+            local: false,   // defaults to false (remote filtering)
+            filters: [ { type: 'string', dataIndex: 'name'}, { type: 'numeric', dataIndex: 'year'}, { type: 'string', dataIndex: 'StructureState'}, { type: 'string', dataIndex: 'FederatedStates'}, { type: 'string', dataIndex: 'LGL1Details'}, { type: 'numeric', dataIndex: 'LGL1Total'}, { type: 'string', dataIndex: 'LGL2Details'}, 
+                       { type: 'numeric', dataIndex: 'LGL2Total'}, { type: 'string', dataIndex: 'LGL3Details'}, { type: 'numeric', dataIndex: 'LGL3Total'}, { type: 'string', dataIndex: 'LGL3Details'}, { type: 'numeric', dataIndex: 'LGL3Total'}]
+    };
+    
+    lglGrid = Ext.create('Ext.grid.Panel', {
+        border: false,
+        store: lglStore,
+        columns: createLGLColumns(),
+        loadMask: true,
+        title: 'Governments',
+        layout: 'fit',
+        features: [filters],
+        listeners: {
+            activate: function(tab){
+                lglStore.load();
+            }
+        },
+        plugins: ['headertooltip'],
+        dockedItems: [Ext.create('Ext.toolbar.Paging', {
+            dock: 'bottom',
+            store: lglStore
+        })]
+    });
+
+    // clear filter button to bottom toolbar
+    lglGrid.child('pagingtoolbar').add([
+        '->',
+		{
+            text: 'Clear Filter Data',
+            handler: function () {
+                lglGrid.filters.clearFilters();
+            } 
+        }    
+    ]);
+
+   
+    
+    /////////////////////////////////////////////
+    // Finance Grid
+    ////////////////////////////////////////////
+    
+    var financeStore = Ext.create('Ext.data.JsonStore', {
+        // store configs
+        autoDestroy: true,
+        model: 'modelFinance',
+        proxy: {
+            type: 'ajax',
+            url: '/app/keyindicators/grid-filter.php',
+            reader: {
+                type: 'json',
+                root: 'data',
+                idProperty: 'id',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: true,
+        sorters: [{
+            property: 'name',
+            direction: 'ASC'
+        }],
+        pageSize: 16
+    });
+
+    labels = { name: 'Name', year: 'Year', generalGovernment: 'General Government', expenditure: 'Expenditure', localExpenditure: 'Local Expenditure', revenue: 'Revenue', grossTooltip: 'Gross Oustanding Debt',
+                   gross: 'Gross', grossDomesticProductExpenditure: 'Gross Domestic Product Expenditure', generalGovernmentExpenditure: 'General Government Expenditure',
+                   inhabitantExpenditure: 'Inhabitant Expenditure'};
+
+    // localisation
+    if (Ext.util.Cookies.get( "uclg_lang") == "fr")
+    {
+        labels = { name: 'Nom', year: 'Année',  generalGovernment: 'Gouvernements Généraux', expenditure: 'Dépenses', localExpenditure: 'Dépenses Locales', revenue: 'Revenu', grossTooltip: 'Encours de la dette brute',
+                   gross: 'Brut', grossDomesticProductExpenditure: 'Dépenses Produit intérieur brut', generalGovernmentExpenditure: 'Dépenses des administrations publiques',
+                   inhabitantExpenditure: 'Dépenses habitant'};
+    }
+    else
+    if (Ext.util.Cookies.get( "uclg_lang") == "es")
+    {
+        labels = { name: 'Nombre', year: 'Año', generalGovernment: 'Gobierno General', expenditure: 'Gastos', localExpenditure: 'Gastos Locales', revenu: 'Ingresos', grossTooltip: 'Deuda bruta',
+                   gross: 'Bruto', grossDomesticProductExpenditure: 'Gasto del Producto Interno Bruto', generalGovernmentExpenditure: 'Gastos del Gobierno General',
+                   inhabitantExpenditure: 'Gastos habitante'};
+    }
+
+    var createFinanceColumns = function () {
+
+        var columns = [{
+            dataIndex: 'name',
+            text: labels.name,
+            width:100,
+            sortable: true,
+            tooltip: 'Name of the Country'
+            }, {
+	            dataIndex: 'year',
+	            text: labels.year,
+	            sortable: true,
+	            width:45,
+	            tooltip: 'When the collected data have been done'
+	        }, {
+            text: labels.generalGovernment,
+            filterable: true,
+            columns: [{
+            	dataIndex: 'PFGExpenditure',
+            	width:70,
+            	sortable: true,
+                text: labels.expenditure
+            },{
+            	dataIndex: 'PFGCapital',
+            	width:62,
+            	sortable: true,
+                text: 'Capital'
+            },{
+            	dataIndex: 'PFGRevenue',
+            	width:65,
+            	sortable: true,
+                text: labels.revenue
+            },{
+            	dataIndex: 'PFGGross',
+            	width:60,
+                text: labels.gross,
+                sortable: true,
+                tooltip : labels.grossTooltip
+            }]
+        }, {
+            text: 'Local Government',
+            filterable: true,
+            columns: [{
+            	dataIndex: 'PFLExpenditure',
+            	width:70,
+            	sortable: true,
+                text: labels.expenditure
+            },{
+            	dataIndex: 'PFLCapital',
+            	width:65,
+            	sortable: true,
+                text: 'Capital'
+            },{
+            	dataIndex: 'PFLRevenue',
+            	width:70,
+            	sortable: true,
+                text: labels.revenue
+            },{
+            	dataIndex: 'PFLGross',
+            	width:55,
+                text: labels.gross,
+                sortable: true,
+                tooltip : labels.grossTooltip
+            }]
+        },{
+            text: labels.localExpenditure,
+            filterable: true,
+            columns: [{
+            	dataIndex: 'ExpendituGDP',
+            	width:60,
+                text: 'GDP',
+                sortable: true,
+                tooltip: labels.grossDomesticProductExpenditure
+            },{
+            	dataIndex: 'ExpendituGG',
+            	width:40,
+                text: 'GG',
+                sortable: true,
+                tooltip: labels.generalGovernmentExpenditure
+            },{
+            	dataIndex: 'ExpendituInhabitant',
+                text: 'Inhabitant',
+                width:70,
+                sortable: true,
+                tooltip: labels.inhabitantExpenditure
+            }]
+        },{
+            text: 'Local Revenue',
+            filterable: true,
+            columns: [{
+            	dataIndex: 'RevenueGDP',
+                text: 'GDP',
+                width:60,
+                sortable: true,
+                tooltip: labels.grossDomesticProductExpenditure
+            },{
+            	dataIndex: 'RevenueGG',
+            	width:60,
+                text: 'GG',
+                sortable: true,
+                tooltip: labels.generalGovernmentExpenditure
+            },{
+            	dataIndex: 'RevenueInhabitant',
+            	width:60,
+                text: 'Inhabitant',
+                sortable: true,
+                tooltip: labels.inhabitantExpenditure
+            }]
+        }];
+
+        return columns.slice(0, 14);
+    };
+    
+    filters = {
+            ftype: 'filters',
+            // encode and local configuration options defined previously for easier reuse
+            encode: false, // json encode the filter query
+            local: false,   // defaults to false (remote filtering)
+            filters: [ { type: 'string', dataIndex: 'name'}, { type: 'numeric', dataIndex: 'year'}, { type: 'numeric', dataIndex: 'PFGExpenditure'}, { type: 'numeric', dataIndex: 'PFGCapital'}, { type: 'numeric', dataIndex: 'PFGRevenue'}, { type: 'numeric', dataIndex: 'PFGGross'}, { type: 'string', dataIndex: 'PFLExpenditure'}, 
+                       { type: 'numeric', dataIndex: 'PFLCapital'}, { type: 'string', dataIndex: 'PFLRevenue'}, { type: 'numeric', dataIndex: 'PFLGross'}, { type: 'string', dataIndex: 'ExpendituGDP'}, { type: 'numeric', dataIndex: 'ExpendituGG'},
+                       { type: 'string', dataIndex: 'ExpendituInhabitant'}, { type: 'numeric', dataIndex: 'RevenueGDP'}, { type: 'string', dataIndex: 'RevenueGG'}, { type: 'numeric', dataIndex: 'Inhabitant'}]
+    };
+    
+    financeGrid = Ext.create('Ext.grid.Panel', {
+        border: false,
+        store: financeStore,
+        columns: createFinanceColumns(),
+        loadMask: true,
+        title:"Finance",
+        features: [filters],
+        listeners: {
+            activate: function(tab){
+                financeStore.load();
+            }
+        },
+        plugins: ['headertooltip'],
+        dockedItems: [Ext.create('Ext.toolbar.Paging', {
+            dock: 'bottom',
+            store: financeStore
+        })]
+    });
+
+    // clear filter on bottom toolbar
+    financeGrid.child('pagingtoolbar').add([
+        '->',
+		{
+            text: 'Clear Filter Data',
+            handler: function () {
+                financeGrid.filters.clearFilters();
+            } 
+        }    
+    ]);
+
+    
+    
+    /////////////////////////////////////////////
+    // Functions Grid
+    ////////////////////////////////////////////
+    
+    var functionsStore = Ext.create('Ext.data.JsonStore', {
+        // store configs
+        autoDestroy: true,
+        model: 'modelFunctions',
+        proxy: {
+            type: 'ajax',
+            url: '/app/keyindicators/grid-filter.php',
+            reader: {
+                type: 'json',
+                root: 'data',
+                idProperty: 'id',
+                totalProperty: 'total'
+            }
+        },
+        remoteSort: true,
+        sorters: [{
+            property: 'name',
+            direction: 'ASC'
+        }],
+        pageSize: 16
+    });
+    
+
+    var labels = { name: 'Name', year: 'Year', publicService: 'Public Service', safety: 'Safety', economic: 'Economic',
+                   housingCommunityAmenities: 'Housing Community Amenities', housing: 'Housing', health: 'Health', publicOrderSafety: 'Public Order Safety'};
+
+    // localisation
+    if (Ext.util.Cookies.get( "uclg_lang") == "fr")
+    {
+        labels = { name: 'Nom', year: 'Année', publicService: 'Service Publique', safety: 'Sécurité', economic: 'Economique',
+                   housingCommunityAmenities: 'Services de logement communautaire', housing: 'Logement', health: 'Santé', publicOrderSafety: 'Sécurité de l\'ordre public'};
+    }
+    else
+    if (Ext.util.Cookies.get( "uclg_lang") == "es")
+    {
+        labels = { name: 'Nombre', year: 'Año', publicService: 'Servicio Público', safety: 'Seguridad', economic: 'Económico',
+                   housingCommunityAmenities: 'Servicios de Vivienda de la Comunidad', housing: 'viviendas', health: 'salud', publicOrderSafety: 'Seguridad de Orden Público'};
+    }
+
+    var createFunctionsColumns = function () {
+
+        var columns = [{
+	            dataIndex: 'name',
+	            text: labels.name,
+	            sortable: true,
+	            tooltip: 'Name of the Country.',
+	            width:100
+            }, {
+	            dataIndex: 'year',
+	            text: labels.year,
+	            width:45,
+	            sortable: true,
+	            tooltip: 'When the collected data have been done'
+	        }, {
+            	text: labels.publicService,
+            	dataIndex: 'GeneralPublicServices',
+	           	tooltip: 'General Public Service',
+	            width:85,
+	            sortable: true
+            },{
+	            text: labels.safety,
+	           	dataIndex: 'PublicOrderSafety',
+	           	tooltip: labels. publicOrderSafetyTooltip,
+	            width:60,
+	            sortable: true
+            },{
+	            text: labels.economic,
+	           	dataIndex: 'EconomicAffairs',
+	           	tooltip: 'Economic Affairs',
+	            width:70,
+	            sortable: true
+            },{
+	            text: 'Environment',
+	           	dataIndex: 'EnvironmentProtection',
+	           	tooltip: 'Environment Protection',
+	            width:76,
+	            sortable: true
+            },{
+	            text: labels.housing,
+	           	dataIndex: 'HousingCommunityAmenities',
+	           	tooltip: labels.housingCommunityAmenities,
+	            width:60,
+	            sortable: true
+            },{
+	            text: labels.health,
+	           	dataIndex: 'Health',
+	            width:55,
+	            sortable: true
+            },{
+	            text: 'Culture',
+	           	dataIndex: 'RecreationCultureReligion',
+	           	tooltip: 'Recreation Culture Religion',
+	            width:65,
+	            sortable: true
+            },{
+	            text: 'Education',
+	           	dataIndex: 'Education',
+	            width:70,
+	            sortable: true
+            },{
+	            text: 'Sanitation',
+	           	dataIndex: 'Sanitation',
+	           	tooltip: 'Sanitation',
+	            width:70,
+	            sortable: true
+            },{
+	            text: 'Social',
+	           	dataIndex: 'SocialProtection',
+	            tooltip: 'Social Protection',
+	            width:55,
+	            sortable: true
+            },{
+	            text: 'Transport',
+	           	dataIndex: 'Transport',
+	            width:70,
+	            sortable: true
+            },{
+	            text: 'Other1',
+	           	dataIndex: 'other1',
+	            tooltip: 'Other1',
+	            width:55,
+	            sortable: true
+            },{
+	            text: 'Other2',
+	           	dataIndex: 'other2',
+	           	tooltip: 'Other2',
+	            width:55,
+	            sortable: true
+            },{
+	            text: 'Other3',
+	           	dataIndex: 'other3',
+	           	tooltip: 'Other3',
+	            width:55,
+	            sortable: true
+            }
+        ];
+
+        return columns.slice(0, 15);
+    };
+    
+    filters = {
+            ftype: 'filters',
+            // encode and local configuration options defined previously for easier reuse
+            encode: false, // json encode the filter query
+            local: false,   // defaults to false (remote filtering)
+            filters: [ { type: 'string', dataIndex: 'name'}, { type: 'numeric', dataIndex: 'year'}, { type: 'numeric', dataIndex: 'GeneralPublicServices'}, { type: 'numeric', dataIndex: 'PublicOrderSafety'}, { type: 'numeric', dataIndex: 'EconomicAffairs'}, { type: 'numeric', dataIndex: 'EnvironmentProtection'}, 
+                       { type: 'numeric', dataIndex: 'HousingCommunityAmenities'}, { type: 'numeric', dataIndex: 'Health'}, { type: 'numeric', dataIndex: 'RecreationCultureReligion'}, { type: 'numeric', dataIndex: 'Education'}, { type: 'numeric', dataIndex: 'Sanitation'}, 
+                       { type: 'numeric', dataIndex: 'SocialProtection'}, { type: 'numeric', dataIndex: 'Transport'}, { type: 'numeric', dataIndex: 'others1'}, { type: 'numeric', dataIndex: 'others2'}, { type: 'numeric', dataIndex: 'others3'}]
+    };
+    
+    functionsGrid = Ext.create('Ext.grid.Panel', {
+        border: false,
+        store: functionsStore,
+        columns: createFunctionsColumns(),
+        loadMask: true,
+        title:"Budget",
+        features: [filters],
+        listeners: {
+            activate: function(tab){
+                functionsStore.load();
+            }
+        },
+        plugins: [ 'headertooltip'],
+        dockedItems: [Ext.create('Ext.toolbar.Paging', {
+            dock: 'bottom',
+            store: functionsStore
+        })]
+    });
+
+	// clear filter on bottom toolbar
+    functionsGrid.child('pagingtoolbar').add([
+        '->',
+		{
+            text: 'Clear Filter Data',
+            handler: function () {
+                functionsGrid.filters.clearFilters();
+            } 
+        } 	
+    ]);
+	
+    
+
+    ///////////////////////////////////////////////////////////////
+    // show
+    ////////////////////////////////////////////////////////////////
+    
+    var tabs = new Ext.TabPanel( {
+        renderTo: 'idTabsKeyIndicators',
+        activeTab: 0,
+        layoutOnTabChange : true,
+        layout: 'fit',
+        defaults :{
+            bodyPadding: 0
+        },
+        items: [ generalGrid, lglGrid, financeGrid, functionsGrid]
+    }).show();  
+	
+	
+
+});

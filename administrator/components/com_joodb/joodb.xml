@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5" method="upgrade">
+  <name>JooDB</name>
+  <creationDate>2011-05-11</creationDate>
+  <author>Dirk Hoeschen, computer daten netze - feenders, www.feenders.de</author>
+  <copyright>Copyright (C) 2009-2011 computer daten netze - feenders. All rights reserved.</copyright>
+  <license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+  <authorEmail>hoeschen@feenders.de</authorEmail>
+  <authorUrl>http://joodb.feenders.de</authorUrl>
+  <version>1.6</version>
+  <description>
+    <![CDATA[
+		<h3>Welcome to JooDatabase</h3>
+		<p>JooDatabase is simple and fast way to include and display external tables (collections, databases) into Joomla.<br/>
+		It automatically generates pages containing the table data using editable templates for catalog and single entry views.</p>
+		<p>Special elements like print-icons and pagination-links are displayed at the desired position in the templates.<br/>
+		JooDatabase handles the linking, routing between the pages automatically. The search plug-in provides search in your
+		databases using the Joomla sitesearch component.</p>
+		<p style="color: #d40000; font-weight: bold;">With JooDatabase you can include your data collections to Joomla within minutes!</p>
+	]]>
+	</description>  
+	<installfile>install.php</installfile>
+	<uninstallfile>uninstall.php</uninstallfile>	
+  	<files folder="components/com_joodb">
+		<folder>assets</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>sample-images</folder>
+		<folder>views</folder>
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>joodb.php</filename>
+		<filename>router.php</filename>
+	</files>
+	<languages folder="/language/">
+		<language tag="en-GB">en-GB.com_joodb.ini</language>
+		<language tag="de-DE">de-DE.com_joodb.ini</language>
+	</languages>	
+	<administration>
+		<menu img="components/com_joodb/assets/images/icon-16-database.png">JooDB</menu>
+		<menu link="option=com_joodb">JooDB</menu>
+		<submenu>
+			<menu img="components/com_joodb/assets/images/icon-16-info.png" link="option=com_joodb&amp;view=info">Info</menu>
+		</submenu>		
+		<files folder="administrator/components/com_joodb">  	 
+			<filename>config_items.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>install.php</filename>
+			<filename>joodb.php</filename>
+			<filename>joodb.xml</filename>
+			<filename>uninstall.php</filename>
+			<folder>helpers</folder>
+			<folder>assets</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="/administrator/language/">
+			<language tag="en-GB">en-GB.com_joodb.ini</language>
+			<language tag="en-GB">en-GB.com_joodb.sys.ini</language>
+			<language tag="de-DE">de-DE.com_joodb.ini</language>
+			<language tag="de-DE">de-DE.com_joodb.sys.ini</language>
+		</languages>	
+	</administration>	
+</install>
+

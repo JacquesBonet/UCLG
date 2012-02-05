@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="1.6.0" group="content" hethod="upgrade">
+	<name>Iyosis Maps Content Plugin</name>
+	<creationDate>23 March 2011</creationDate>
+	<author>Iyosis.com</author>
+	<authorEmail>remzi@iyosis.com</authorEmail>
+	<authorUrl>http://www.iyosis.com</authorUrl>
+	<copyright>Iyosis.com</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<version>1.8</version>
+	<releaseDate>1 June 2011</releaseDate>
+	<releaseType>Major update</releaseType>
+	<downloadUrl>http://www.iyosis.com/</downloadUrl>
+	<description>PLG_CONTENT_IYOSISMAPS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="iyosismaps">iyosismaps.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_content_iyosismaps.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_content_iyosismaps.sys.ini</language>
+	</languages>
+</extension>
+

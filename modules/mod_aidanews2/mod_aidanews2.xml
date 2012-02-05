@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>AiDaNews 2</name>
+	<author>Danilo Aimini</author>
+	<creationDate>April 2011</creationDate>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>dan@cdh.it</authorEmail>
+	<authorUrl>www.aimini.it</authorUrl>
+	<version>2.0.7</version>
+	<description>AIDANEWS2_INSTALLED_OR_UPDATED_SUCCESSFULLY</description>
+	
+	<files>
+		<filename module="mod_aidanews2">mod_aidanews2.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>changelog.html</filename>
+		<filename>License.txt</filename>
+		<filename>tmpl/default.php</filename>
+		<filename>tmpl/index.html</filename>
+		
+		<filename>fields/index.html</filename>
+		<filename>fields/updatecheck.php</filename>
+		
+		<filename>img/aida2logo.jpg</filename>
+		<filename>img/aidadefault1.jpg</filename>
+		<filename>img/aidadefault2.jpg</filename>
+		<filename>img/aidadefault3.jpg</filename>
+		<filename>img/changelog.jpg</filename>
+		<filename>img/docs.jpg</filename>
+		<filename>img/donate.jpg</filename>
+		<filename>img/forums.jpg</filename>
+		<filename>img/mail.jpg</filename>
+		<filename>img/rate.jpg</filename>
+		<filename>img/web.jpg</filename>
+		<filename>img/index.html</filename>
+		
+		<filename>css/default.css</filename>
+		<filename>layout/default.txt</filename>
+		<filename>img/default/rating.png</filename>
+		<filename>img/default/no-rating.png</filename>
+		<filename>img/default/hits.png</filename>
+		<filename>img/default/comments.png</filename>
+		
+		<filename>css/beez.css</filename>
+		<filename>layout/beez.txt</filename>
+		
+		<filename>css/purity.css</filename>
+		<filename>layout/purity.txt</filename>
+		<filename>img/purity/icon-user.gif</filename>
+		<filename>img/purity/icon-date.gif</filename>
+		
+		<filename>layout/index.html</filename>
+		<filename>css/index.html</filename>
+		<filename>img/default/index.html</filename>
+		<filename>img/purity/index.html</filename>
+	</files>
+	
+	<languages>
+        <language tag="en-GB">en-GB.mod_aidanews2.ini</language>
+		<language tag="it-IT">it-IT.mod_aidanews2.ini</language>
+    </languages>
+	
+	<updateservers>
+		<server type="extension" priority="1" name="Aimini.it">http://aimini.it/update/mod_aidanews2.xml</server>
+	</updateservers>
+	
+	<config>
+		
+		<fields name="params" addfieldpath="/modules/mod_aidanews2/fields">
+			
+			<fieldset name="basic">
+			
+				<field type="updatecheck"/>
+		
+				<field name="cache" type="list" default="1" label="AIDACACHE" description="AIDACACHEDESC">
+					<option value="1">GLOBALCACHE</option>
+					<option value="0">NOCACHE</option>
+				</field>
+				<field name="cache_time" type="text" default="900" label="AIDACACHETIME" description="AIDACACHETIMEDESC" />
+				<field name="omid" type="radio" default="0" label="OMID" description="OMIDDESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+				<field name="cmid" type="menuitem" default="0" label="CMID" description="CMIDDESC" />
+		
+			</fieldset>
+		
+			<fieldset name="AN2SELECT">
+				
+				<field name="offset" type="text" default="0" label="OFFSET" description="OFFSETDESC" />
+				<field name="foffset" type="text" default="0" label="FOFFSET" description="FOFFSETDESC" />
+				<field name="count" type="text" default="5" label="COUNT" description="COUNTDESC" />
+				<field name="recent" type="text" default="" label="RECENT" description="RECENTDESC" />
+				<field name="user_id" type="list" default="0" label="AUTHORS" description="AUTHORSDESC">
+					<option value="0">ANS_ANYONE</option>
+					<option value="by_me">ANS_BY_ME</option>
+					<option value="not_me">ANS_NOT_ME</option>
+					<option value="sel">ANS_SEL</option>
+				</field>
+				<field name="authors" type="sql" query="SELECT user_id, (SELECT name FROM #__users AS u WHERE u.id = user_id) AS name FROM #__user_usergroup_map WHERE group_id >= 3 ORDER BY name" key_field="user_id" value_field="name" default="" multiple="true" label="SELAUTH" description="SELAUTHDESC"></field>
+				<field name="sauth" type="radio" default="0" label="SAUTH" description="SAUTHDESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+				<field name="sua" type="radio" default="0" label="SUA" description="SUADESC">
+					<option value="1">ANS_NO</option>
+					<option value="0">ANS_YES</option>
+				</field>
+				
+			</fieldset>
+			
+			<fieldset name="AN2FROM">
+		
+				<field name="catid" type="category"	extension="com_content"	multiple="true"	size="6" default="" label="CATID" description="CATIDDESC">
+					<option value="">SELECT_ALL</option>
+				</field>
+				<field name="incsub" type="radio" default="0" label="INCSUB" description="INCSUBDESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+				<field name="show_front" type="radio" default="0" label="FRONT" description="FRONTDESC">
+					<option value="0">ANS_SHOW</option>
+					<option value="2">ANS_ONLY</option>
+					<option value="1">ANS_HIDE</option>
+				</field>
+				<field name="show_trash" type="radio" default="1" label="TRASH" description="TRASHDESC">
+					<option value="0">ANS_SHOW</option>
+					<option value="2">ANS_ONLY</option>
+					<option value="1">ANS_HIDE</option>
+				</field>
+				<field name="cco" type="radio" default="0" label="CCO" description="CCODESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+
+			</fieldset>
+			
+			<fieldset name="AN2ORDERBY">
+		
+				<field name="ordering" type="list" default="1" label="AIDAORDER" description="AIDAORDERDESC">
+					<option value="1">ANS_CDATE</option>
+					<option value="0">ANS_MDATE</option>
+					<option value="2">ANS_HITS</option>
+					<option value="10">ANS_FRONT</option>
+					<option value="3">ANS_RAND</option>
+					<option value="4">ANS_ALPHA</option>
+					<option value="5">ANS_RAVG</option>
+					<option value="6">ANS_RNUM</option>
+					<option value="7">ANS_ID</option>
+					<option value="8">ANS_COMS</option>
+					<option value="9">ANS_EVENT</option>
+				</field>
+				<field name="dasc" type="radio" default="1" label="DASC" description="DASCDESC">
+					<option value="1">ANS_DESC</option>
+					<option value="0">ANS_ASC</option>
+				</field>
+				<field name="sord" type="list" default="0" label="SORDER" description="SORDERDESC">
+					<option value="0">ANS_NONE</option>
+					<option value="1">ANS_CDATE</option>
+					<option value="20">ANS_MDATE</option>
+					<option value="2">ANS_HITS</option>
+					<option value="10">ANS_FRONT</option>
+					<option value="3">ANS_RAND</option>
+					<option value="4">ANS_ALPHA</option>
+					<option value="5">ANS_RAVG</option>
+					<option value="6">ANS_RNUM</option>
+					<option value="7">ANS_ID</option>
+					<option value="8">ANS_COMS</option>
+					<option value="9">ANS_EVENT</option>
+				</field>
+				<field name="sdasc" type="radio" default="1" label="DASC" description="SDASCDESC">
+					<option value="1">ANS_DESC</option>
+					<option value="0">ANS_ASC</option>
+				</field>
+		
+			</fieldset>
+		
+			<fieldset name="AN2LAYOUT2">
+			
+				<field name="postyle" type="radio" default="0" label="POSTYLE" description="POSTYLEDESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+				<field name="pos_head" type="textarea" cols="30" rows="2" default="[title]" label="POSHEAD" description="LAYOUTDESC" />
+				<field name="pos_topL" type="textarea" cols="30" rows="2" default="Written on [date] by [author]" label="POSTOPL" description="LAYOUTDESC" />
+				<field name="pos_topR" type="textarea" cols="30" rows="2" default="[empty]" label="POSTOPR" description="LAYOUTDESC" />
+				<field name="pos_mainL" type="textarea" cols="30" rows="2" default="[empty]" label="POSMAINL" description="LAYOUTDESC" />
+				<field name="pos_mainC" type="textarea" cols="30" rows="2" default="[image1][text]" label="POSMAINC" description="LAYOUTDESC" />
+				<field name="pos_mainR" type="textarea" cols="30" rows="2" default="[empty]" label="POSMAINR" description="LAYOUTDESC" />
+				<field name="pos_botL" type="textarea" cols="30" rows="2" default="[readmore]" label="POSBOTL" description="LAYOUTDESC" />
+				<field name="pos_botR" type="textarea" cols="30" rows="2" default="[hits][rating]" label="POSBOTR" description="LAYOUTDESC" />
+				<field name="pos_foot" type="textarea" cols="30" rows="2" default="[empty]" label="POSFOOT" description="LAYOUTDESC" />
+			
+			</fieldset>
+			
+			<fieldset name="AN2LAYOUT3">
+
+				<field type="spacer" label="SPACER_GRID"/>
+					<field name="grid" type="radio" default="0" label="GRID" description="GRIDDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+					<field name="grid_cols" type="text" default="3" label="GRCOLS" description="GRCOLSDESC" />
+				<field type="spacer" label="SPACER_BOTLINK"/>
+					<field name="botlnk" type="radio" default="1" label="BOTLNK" description="BOTLNKDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+					<field name="btxt" type="text" default="Custom Link" label="BTXT" description="BTXTDESC" />
+					<field name="blnk" type="text" default="index.php" label="BLNK" description="BLNKDESC" />
+			
+			</fieldset>
+			
+			<fieldset name="AN2STYLE">
+			
+				<field name="moduleclass_sfx" type="text" default="" label="MCSFX" description="MCSFXDESC" />
+				<field name="style" type="radio" default="0" label="STYLE" description="STYLEDESC">
+					<option value="0">ANS_SS</option>
+					<option value="1">ANS_CUSTOM</option>
+					<option value="2">ANS_BOTH</option>
+					<option value="3">ANS_NONE</option>
+				</field>
+				<field name="csspath" type="filelist" default="default.css" label="CSSPATH" description="CSSPATHDESC" directory="modules/mod_aidanews2/css" hide_none="true" hide_default="true" />
+				<field name="cssfield" type="textarea" cols="30" rows="12" default=".aidanews2_topL, .aidanews2_botL {
+	float: left;
+	width: 50;
+	text-align: left;
+}
+
+.aidanews2_topL {
+	font-size: 10px;
+}
+
+.aidanews2_topR, .aidanews2_botR {
+	float: right;
+	width: 50;
+	text-align: right;
+}
+
+.aidanews2_mainL {
+	width: auto;
+	float: left;
+
+}
+
+.aidanews2_mainC {
+	width: auto;
+	overflow: auto;
+}
+
+.aidanews2_mainR {
+	width: auto;
+	float: right;
+}
+
+.aidanews2_title {
+	padding: 0;
+	margin: 0;
+	display: inline;
+	font-size: 15px;
+}
+
+.aidanews2_title a:link {
+	font-weight: bold;
+}
+
+.aidanews2_date {
+	font-size: 80%;
+}
+
+.aidanews2 img {
+	padding: 2px;
+	border: solid 1px #ccc;
+	margin-right: 5px;
+	float: left;
+}
+
+.aidanews2 .readon {
+	margin-top: 3px;
+}
+
+.aidanews2_positions {
+	padding: 2px 5px !important;
+}
+
+.aidanews2 .even {
+	background-color: #E8E8E8;
+}
+
+.aidanews2_line {
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+}
+
+.aidawarning {
+	font-weight: bold;
+	color: red;
+	font-size: 10px;
+}
+
+.aidanews2_table {
+	width: 100%;
+}
+
+.aidanews2_table .aidanews2_tabrow {
+	clear: both;
+	width: 100%;
+	margin: 0;
+}
+
+.aidanews2_table .aidanews2_tabrow .aidanews2_art {
+	float: left;
+	display: inline;
+	border-right: 1px solid #ccc;
+}
+
+.firstinrow {
+	border-left: 1px solid #ccc;
+}
+
+.infirstrow {
+	border-top: 1px solid #ccc;
+}
+
+.aidanews2_bottomlink {
+	padding: 5px 8px 3px;
+}
+
+.aidanews2_bottomlink a:link {
+	font-weight: bold;
+}
+
+.aidanews2_table .aidanews2_bottomlink {
+	border: 1px solid #ccc;
+	border-top: 0px;
+	width: 25%;
+	clear: both;
+	background-color: #E8E8E8;
+}
+
+.aidanews2_rating {
+	background: url('../img/default/rating.png') no-repeat scroll 0 2px transparent;
+    padding: 3px 3px 3px 20px;
+}
+
+.aidanews2_hits {
+	background: url('../img/default/hits.png') no-repeat scroll 0 2px transparent;
+    padding: 3px 3px 3px 20px;
+}
+
+.aidanews2_comments {
+	background: url('../img/default/comments.png') no-repeat scroll 0 2px transparent;
+    padding: 3px 3px 3px 20px;
+}" label="CSSFIELD" description="CSSFIELDDESC" />
+			
+			</fieldset>
+			
+			<fieldset name="AN2SETTINGS1">
+				
+				<field type="spacer" label="SPACER_TITLE"/>
+					<field name="lnktit" type="radio" default="1" label="LNKTIT" description="LNKTITDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+					<field name="titnp" type="radio" default="0" label="TITNP" description="TITNPDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+					<field name="hspan" type="radio" default="1" label="HSPAN" description="HSPANDESC">
+						<option value="0">ANS_SPAN</option>
+						<option value="1">ANS_H1</option>
+						<option value="2">ANS_H2</option>
+						<option value="3">ANS_H3</option>
+					</field>
+					<field name="titnum" type="text" default="30" label="SHORTTIT" description="SHORTTITDESC" />
+					<field name="titsh" type="radio" default="1" label="TITSH" description="TITSHDESC">
+						<option value="0">ANS_WORDS</option>
+						<option value="1">ANS_KEYS</option>
+					</field>
+					<field name="titend" type="text" default="..." label="TITEND" description="TITENDDESC" />
+					
+				<field type="spacer" label="SPACER_TXT"/>	
+					<field name="txtwhat" type="radio" default="2" label="TXTWHAT" description="TXTWHATDESC">
+						<option value="0">ANS_INTRO</option>
+						<option value="1">ANS_FULL</option>
+						<option value="2">ANS_INTROFULL</option>
+						<option value="3">ANS_METADESC</option>
+					</field>
+					<field name="txtnum" type="text" default="150" label="SHORTTXT" description="SHORTTXTDESC" />
+					<field name="txtsh" type="radio" default="1" label="TXTSH" description="TXTSHDESC">
+						<option value="0">ANS_WORDS</option>
+						<option value="1">ANS_KEYS</option>
+					</field>
+					<field name="txtend" type="text" default="..." label="TXTEND" description="TXTENDDESC" />
+					<field name="txtstrip" type="radio" default="1" label="TXTSTRIP" description="TXTSTRIPDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+					<field name="txtallow" type="text" default="" label="TXTALLOW" description="TXTALLOWDESC" />
+					<field name="txtplugs" type="radio" default="1" label="TXTPLUGS" description="TXTPLUGSDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+					
+				<field type="spacer" label="SPACER_RM"/>
+				
+					<field name="readmore" type="text" default="Read More" label="MORE" description="MOREDESC" />
+			
+			</fieldset>
+			
+			<fieldset name="AN2SETTINGS2">
+		
+				<field type="spacer" label="SPACER_DATE"/>
+			
+					<field name="wdate" type="list" default="0" label="WDATE" description="WDATEDESC">
+						<option value="0">ANS_CREATED</option>
+						<option value="1">ANS_MODIFIED</option>
+						<option value="2">ANS_PUBLISHED</option>
+						<option value="3">ANS_UNPUBLISHED</option>
+					</field>
+					<field name="dto" type="text" default="d/m/Y, H:i" label="DTO" description="DTODESC" />
+					
+				<field type="spacer" label="SPACER_CATEGORY"/>
+				
+					<field name="caturl" type="radio" default="0" label="CATURL" description="CATURLDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+			
+				<field type="spacer" label="SPACER_AUTHOR"/>
+				
+					<field name="authtype" type="radio" default="3" label="AUTHTYPE" description="AUTHTYPEDESC">
+						<option value="0">ANS_NAME</option>
+						<option value="1">ANS_USERNAME</option>
+						<option value="2">ANS_NAMEALIAS</option>
+						<option value="3">ANS_USERNAMEALIAS</option>
+					</field>
+					
+					<field name="authlnk" type="list" default="0" label="AUTHLNK" description="AUTHLNKDESC">
+						<option value="0">NOLNK</option>
+						<option value="1">LNKCBPROFILE</option>
+						<option value="4">LNKKUNPROFILE</option>
+						<option value="2">LNKJSPROFILE</option>
+						<option value="3">LNKJSSPROFILE</option>
+					</field>
+			
+			</fieldset>
+			
+			<fieldset name="AN2SETTINGS3">
+		
+				<field type="spacer" label="SPACER_HITS"/>
+				
+					<field type="spacer" label="NO_OPTIONS"/>
+				
+				<field type="spacer" label="SPACER_RATING"/>
+
+					<field name="rround" type="radio" default="0" label="RROUND" description="RROUNDDESC">
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</field>
+					<field name="rstars" type="radio" default="0" label="RSTARS" description="RSTARSDESC">
+						<option value="0">ANS_NO</option>
+						<option value="1">ANS_YES</option>
+					</field>
+			
+				<field type="spacer" label="SPACER_COMMENTS"/>
+					<field name="ctab" type="list" default="0" label="CTAB" description="CTABDESC">
+						<option value="0">NO_COMMENTS</option>
+						<option value="8">Joomla Commentator!</option>
+						<option value="7">RDBS Comments</option>
+						<option value="5">yvComment</option>
+						<option value="3">Webee Comment</option>
+						<option value="6">ZiMB Comment</option>
+						<option value="10">Kunena Discuss Plugin</option>
+						<option value="2">CUSTOM</option>
+					</field>
+					<field name="custab" type="text" default="" label="CUSTAB" description="CUSTABDESC" />
+					<field name="custart" type="text" default="" label="CUSTART" description="CUSTARTDESC" />
+			
+			</fieldset>
+			
+			<fieldset name="AN2SETTINGS4">
+			
+				<field name="tol_title" type="textarea" cols="30" rows="3" default="" label="TOLTIT" description="TOLTITDESC" />
+				<field name="tol_img1" type="textarea" cols="30" rows="3" default="" label="TOLIMG1" description="TOLIMG1DESC" />
+				<field name="tol_img2" type="textarea" cols="30" rows="3" default="" label="TOLIMG2" description="TOLIMG2DESC" />
+				<field name="tol_img3" type="textarea" cols="30" rows="3" default="" label="TOLIMG3" description="TOLIMG3DESC" />
+			
+			</fieldset>
+			
+			<fieldset name="AN2IMAGE1">
+		
+				<field name="img1pref1" type="list" default="2" label="IMGPREF1" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img1pref2" type="list" default="1" label="IMGPREF2" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img1pref3" type="list" default="0" label="IMGPREF3" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img1pref4" type="list" default="0" label="IMGPREF4" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img1pref5" type="list" default="0" label="IMGPREF5" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				
+				<field type="spacer"/>
+				
+				<field name="img1W" type="text" default="auto" label="IMGW" description="IMGWDESC" />
+				<field name="img1H" type="text" default="72" label="IMGH" description="IMGHDESC" />
+				
+				<field type="spacer"/>
+				
+				<field name="img1lnk" type="list" default="1" label="IMGLNK" description="IMGLNKDESC">
+					<option value="0">NOLNK</option>
+					<option value="1">LNKARTICLE</option>
+					<option value="2">LNKCATEGORY</option>
+					<option value="4">LNKCBPROFILE</option>
+					<option value="5">LNKJSPROFILE</option>
+					<option value="6">LNKKUNPROFILE</option>
+					<option value="7">LNKJSSPROFILE</option>
+				</field>
+			
+			</fieldset>
+			
+			<fieldset name="AN2IMAGE2">
+			
+				<field name="img2pref1" type="list" default="0" label="IMGPREF1" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img2pref2" type="list" default="0" label="IMGPREF2" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img2pref3" type="list" default="0" label="IMGPREF3" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img2pref4" type="list" default="0" label="IMGPREF4" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img2pref5" type="list" default="0" label="IMGPREF5" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				
+				<field type="spacer"/>
+				
+				<field name="img2W" type="text" default="auto" label="IMGW" description="IMGWDESC" />
+				<field name="img2H" type="text" default="72" label="IMGH" description="IMGHDESC" />
+				
+				<field type="spacer"/>
+				
+				<field name="img2lnk" type="list" default="1" label="IMGLNK" description="IMGLNKDESC">
+					<option value="0">NOLNK</option>
+					<option value="1">LNKARTICLE</option>
+					<option value="2">LNKCATEGORY</option>
+					<option value="4">LNKCBPROFILE</option>
+					<option value="5">LNKJSPROFILE</option>
+					<option value="6">LNKKUNPROFILE</option>
+					<option value="7">LNKJSSPROFILE</option>
+				</field>
+
+			</fieldset>
+			
+			<fieldset name="AN2IMAGE3">
+				
+				<field name="img3pref1" type="list" default="0" label="IMGPREF1" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img3pref2" type="list" default="0" label="IMGPREF2" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img3pref3" type="list" default="0" label="IMGPREF3" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img3pref4" type="list" default="0" label="IMGPREF4" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				<field name="img3pref5" type="list" default="0" label="IMGPREF5" description="IMGPREFDESC">
+					<option value="0">NOIMG</option>
+					<option value="1">DEFAULTIMG</option>
+					<option value="2">FIRSTIMG</option>
+					<option value="3">LASTIMG</option>
+					<option value="4">CATIMG</option>
+					<option value="5">JSIMG</option>
+					<option value="13">JSTHUMB</option>
+					<option value="6">CBIMG</option>
+					<option value="7">KUNIMG</option>
+					<option value="8">JSSIMG</option>
+					<option value="9">FTUBEIMG</option>
+					<option value="10">LTUBEIMG</option>
+					<option value="11">FGALIMG</option>
+					<option value="12">LGALIMG</option>
+				</field>
+				
+				<field type="spacer"/>
+				
+				<field name="img3W" type="text" default="auto" label="IMGW" description="IMGWDESC" />
+				<field name="img3H" type="text" default="72" label="IMGH" description="IMGHDESC" />
+				
+				<field type="spacer"/>
+				
+				<field name="img3lnk" type="list" default="1" label="IMGLNK" description="IMGLNKDESC">
+					<option value="0">NOLNK</option>
+					<option value="1">LNKARTICLE</option>
+					<option value="2">LNKCATEGORY</option>
+					<option value="4">LNKCBPROFILE</option>
+					<option value="5">LNKJSPROFILE</option>
+					<option value="6">LNKKUNPROFILE</option>
+					<option value="7">LNKJSSPROFILE</option>
+				</field>
+			
+			</fieldset>
+			
+			<fieldset name="AN2IMAGES">
+		
+				<field name="usethumbs" type="radio" default="0" label="THUMBS" description="THUMBSDESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+				<field name="tsubf" type="text" default="" label="TSUBF" description="TSUBFDESC" />
+				<field name="quality" type="text" default="90" label="TQ" description="TQDESC" />
+				<field name="thumbsid" type="radio" default="0" label="THUMBSID" description="THUMBSIDDESC">
+					<option value="0">ANS_NO</option>
+					<option value="1">ANS_YES</option>
+				</field>
+			
+			</fieldset>
+			
+			<fieldset name="AN2BEHAVIOUR">
+			
+				<field name="related" type="radio" default="0" label="REL" description="RELDESC">
+					<option value="0">ANS_LATEST</option>
+					<option value="1">ANS_RELATED</option>
+				</field>
+			
+			</fieldset>
+			
+		</fields>
+	
+	</config>
+	
+</extension>

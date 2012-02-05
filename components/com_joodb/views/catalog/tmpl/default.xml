@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="catalog view">
+		<message>
+			<![CDATA[catalog view desc]]>
+		</message>
+	</layout>
+	<fields name="params">	
+		<fieldset name="basic">
+			<field name="joobase" type="sql" default="1" label="Database" description="PARAMSELECTDB" query="SELECT id AS value, name AS joobase FROM #__joodb" />
+			<field name="where_statement" type="text" default="" size="50" label="SQL-WHERE Statement" description="SQL-WHERE Statement description" />
+			<field name="@spacer" type="spacer" default="" label="" description="" />
+			<field name="show_description" type="radio" default="0" label="Show intro text" description="Show Intro text">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="description" type="textarea" default="" label="Intro text" rows="5" cols="30" description="Intro on first page"/>
+			<field name="@spacer" type="spacer" default="" label="" description="" />
+			<field name="image" type="imagelist" directory="/images" hide_default="1" default="-1" label="Image" description="Image above first page" />
+			<field name="image_align" type="radio" default="right" label="Align" description="Alignment of the image">
+				<option value="left">left</option>
+				<option value="right">Right</option>
+			</field>		
+		</fieldset>
+		<fieldset name="advanced">
+			<field name="link_titles" type="radio" default="1" label="Link Titles" description="Link Titles Desc">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+			</field>
+			<field name="link_urls" type="radio" default="0" label="Link URL" description="Link URL Desc">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+			</field>
+			<field name="orderby" type="list" default="ftitle" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC">
+				<option value="ftitle">Default</option>
+				<option value="fdate">JGLOBAL_MOST_RECENT_FIRST</option>
+				<option value="ftitle">JGLOBAL_TITLE_ALPHABETICAL</option>
+				<option value="fid">JFIELD_ORDERING_LABEL</option>
+				<option value="random">RANDOM</option>
+			</field>
+			<field name="ordering" type="radio" default="ASC" label="JGLOBAL_ARTICLE_ORDER_LABEL" description="JGLOBAL_ARTICLE_ORDER_DESC">
+				<option value="ASC">Sort Ascending</option>
+				<option value="DESC">Sort Descending</option>
+  			</field>				
+			<field name="limit" type="text" size="5" default="10" label="Limit" description="PAGINATION_LIMIT"/>
+		</fieldset>
+	</fields>	
+	<state>
+		<name>catalog view</name>
+		<description>catalog view desc</description>		
+		<params>
+			<param name="joobase" type="sql" default="1" label="Databases" description="PARAMSELECTDB" query="SELECT id AS value, name AS joobase FROM #__joodb" />
+			<param name="where_statement" type="text" default="" size="50" label="SQL-WHERE Statement" description="SQL-WHERE Statement description" />
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Description below">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="description" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page"/>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="image" type="imagelist" directory="/images" hide_default="1" default="-1" label="Image" description="PARAMIMAGE" />
+			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+				<option value="left">Left</option>
+				<option value="right">Right</option>
+			</param>
+		</params>
+		<advanced>
+			<param name="link_titles" type="radio" default="1" label="Link Titles" description="Link Titles Desc">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+			</param>
+			<param name="link_urls" type="radio" default="0" label="Link URL" description="Link URL Desc">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+			</param>
+			<param name="orderby" type="list" default="ftitle" label="Order by" description="PARAMORDERBY">
+				<option value="ftitle">Default</option>
+				<option value="fdate">Most recent first</option>
+				<option value="ftitle">Title Alphabetical</option>
+				<option value="fid">Ordering</option>
+				<option value="random">Random</option>
+			</param>
+			<param name="ordering" type="radio" default="ASC" label="Ordering" description="Ordering options">
+				<option value="ASC">Sort Ascending</option>
+				<option value="DESC">Sort Descending</option>
+  			</param>				
+			<param name="limit" type="text" size="5" default="10" label="Limit" description="PAGINATION_LIMIT"/>
+		</advanced>
+	</state>
+</metadata>

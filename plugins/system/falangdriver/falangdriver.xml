@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.7" type="plugin" group="system" method="upgrade">
+    <name>plg_system_falangdriver</name>
+    <author>Stéphane Bouey</author>
+    <creationDate>August 2011</creationDate>
+    <copyright> Copyright (C) 2011 faboba.com. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl.html</license>
+    <authorEmail>stephane.bouey@faboba.com</authorEmail>
+    <authorUrl>http://www.faboba.com</authorUrl>
+    <version>1.7.0b4</version>
+    <description>PLG_SYSTEM_FALANGDRIVER_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="falangdriver">index.html</filename>
+		<filename plugin="falangdriver">falangdriver.php</filename>
+		<filename plugin="falangdriver">database.xml</filename>
+		<folder>language</folder>
+	</files>
+	<languages>
+		<language tag="language/en-GB">en-GB.plg_falang_driver.ini</language>
+		<language tag="language/en-GB">en-GB.plg_falang_driver.sys.ini</language>
+	</languages>
+	<config>
+	</config>
+</extension>

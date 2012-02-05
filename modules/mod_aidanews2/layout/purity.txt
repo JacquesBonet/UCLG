@@ -1,0 +1,53 @@
+JA Purity file for AiDaNews2 Layout Positions. More info at the bottom of the file.
+[title]
+[date][author]
+[empty]
+[empty]
+[image1][text]
+[empty]
+[readmore]
+[hits] [rating]
+[empty]
+/* Any other Comment can be added down here (after line 10) */
+
+---> What's this file for?
+
+With AiDaNews2 you can associate to a CSS file a TXT file that describes the contents of the layout positions. 
+The files need to have the same name, but they have to be placed in two different folders:
+modules/mod_aidanews2/css
+for the .css file, and
+modules/mod_aidanews2/layout
+for this txt file.
+The module already contains some predefined css and txt files that you can use to try different styles in a quick and easy way.
+
+---> How can I use these files in AiDaNews2?
+
+That's simple: check out the "STYLE ~ CSS Values & pre-made stylings" tab of your AiDaNews2 module and make sure the "Get Style from" field
+is set to "Style Sheet" or "Both".
+Then open the "LAYOUT ~ Main Setup" tab and turn the "Use Style" field to Yes. That's it!
+
+---> I want to combine two differently called files in one layout
+
+To make things simpler for newbies I decided not to add this possibility in the module's backend. There's a couple of things you can do, anyway:
+1) manually copy the layout you want to use in the "LAYOUT ~ Main Setup" tab. This will let you edit the layout freely if you need to do so.
+2) swap the names of the files. If you want to use the "default" layout with the "purity" css, just give another name to "purity.txt"
+(renaming instead of erasing is advised) and rename "default.txt" to "purity.txt". This is only advised if you want a quick look of how
+the new layout would work out. If you're looking for a permanent change, read option 3 (updating will reset the changes made this way!)
+3) copy the content of the css file you like in a new .css file, give it a name you like and put it in the modules/mod_aidanews2/css folder.
+Do the same for the .txt file, but remember to give the two files the same name!
+This option is useful if you want more istances of the module to share the same css and layout, as changes to the two files will be automatically
+displayed in the whole bunch of modules! Easy, isn't it?
+
+---> How does this file work?
+
+The first 10 lines of this txt file contain a "title" and the contents of the 9 layout positions. When triggered to do so (see above) AiDaNews2 will
+automatically scan this file for info and use those 9 lines instead of the parameters you insert in the fields.
+
+---> How can I create my own layout?
+
+It's easy: just create two files with the same name, but with 2 different extensions (.txt and .css). Then fill the CSS one with the rules
+you need and the txt one with a title in the first line and the 9 modules positions right after, one on each line.
+More info about this can be read in the questions above!
+
+If your common notepad doesn't show you this file as divided into lines, don't save this file and use another program to read it
+I recommend downloading Notepad++ (http://notepad-plus-plus.org/), as it's really useful for programming too!

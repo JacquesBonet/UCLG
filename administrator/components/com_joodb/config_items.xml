@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="accessd" type="list" size="1" default="0" label="Data Access" description="DETAILDATAACCESS">
+			<option value="0">Public</option>
+			<option value="1">Registered</option>
+			<option value="2">Special</option>
+		</param>
+		<param name="accessf" type="list" size="1" default="0" label="Form Access" description="DETAILFORMACCESS">
+			<option value="0">Public</option>
+			<option value="1">Registered</option>
+			<option value="2">Special</option>
+		</param>
+	</params>	
+	<params group="images">
+		<param name="img_width" type="text" size="4" default="480" label="Image width" description="Maximum value" />
+		<param name="img_height" type="text" size="4" default="600" label="Image height" description="Maximum value" />
+		<param name="thumb_width" type="text" size="4" default="120" label="Thumb width" description="Maximum value" />
+		<param name="thumb_height" type="text" size="4" default="200" label="Thumb height" description="Maximum value" />
+	</params>
+	<params group="database">
+		<param name="extdb" type="text" size="20"  default="" label="External Database" description="DETAILEXTDB" />
+		<param name="extdb_server" type="text" size="20"  default="" label="Server" description="DETAILEXTDBSRV" />
+		<param name="extdb_user" type="text" size="10"  default="" label="Username" description="DETAILUSEREXTDB" />
+		<param name="extdb_pass" type="text" size="10"  default="" label="Password" description="DETAILPASSEXTDB" />
+	</params>	
+</config>

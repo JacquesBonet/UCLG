@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="system" method="upgrade">
+	<name>Plugin Include Component</name>
+	<author>Mike Reumer</author>
+	<creationDate>31 July 2010</creationDate>
+	<copyright>Copyright (C) 2010 Mike Reumer</copyright>
+	<license>http://www.gnu.org/licenses/lgpl.html LGPL</license>
+	<authorEmail>tech@reumer.net</authorEmail>
+	<authorUrl>http://tech.reumer.net</authorUrl>
+	<version>1.10</version>
+	<description><![CDATA[<h1>Plugin include component</h1><p><br/>
+	Include any component in a article (without iframe).<br />Code is {component url='url'}<br /> Replace url with the url to your component and include index.php?<br />For example:<br />{component url='index.php?option=com_component&amp;Itemid=73&amp;parameters....'}<br /><br />You maybe  need to change the url when using an SEF component. If you get a component not found when using normal url then use the SEF url. So not:<br />index.php?option=com_contact&amp;lang=en&amp;view=category<br />but:<br />Contact-Us/category/</p>]]></description>
+	<files>
+		<filename plugin="plugin_component">plugin_component.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+			    <field name="ignore_script" type="textarea" rows="5" cols="40" default="" label="Ignore scripts" description="Add here the scripts that has to be ignored. Enter each relative url on a new line" />
+			    <field name="ignore_style" type="textarea" rows="5" cols="40" default="" label="Ignore stylesheets" description="Add here the stylesheets that has to be ignored. Enter each relative url on a new line" />
+				<field name="method" type="radio" default="file_get_contents" label="Method" description="You can choose file_get_contents or curl. Curl has the best results, but requires curl library installed at PHP webserver">
+					<option value="file_get_contents">file_get_contents</option>
+					<option value="curl">curl</option>
+				</field>
+				<field name="closesession" type="radio" default="0" label="Close session" description="Close the session in Joomla to pass it to other component.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="ignoresef" type="radio" default="0" label="Ignore sef" description="Ignore sef and use normal parameter substitution.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="cbreplace" type="radio" default="0" label="CB Token replace" description="The plugin can replace the CB Tokens so it ">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="replprint" type="radio" default="1" label="Remove print" description="Remove the print parameter in all links on the page (default) so links goto pages with template css include instead of only print.css.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="repltmpl" type="radio" default="1" label="remove tmpl" description="Remove the tmpl parameter in all links on the page (default) so links goto pages with full layout (header/modules) instead of only the component output.">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="Plugin include component Update Site">http://tech.reumer.net/update/plugin_includecomponent/extension.xml</server>
+	</updateservers>	
+
+</extension>

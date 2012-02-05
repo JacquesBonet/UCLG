@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset
+		name="database"
+		label="CONFIG_DATABASE_SETTINGS_LABEL">
+		<field
+			name="dbtype"
+			type="list"
+			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
+			filter="string">
+			<option
+				value="mysql">COM_CONFIG_FIELD_VALUE_MYSQL</option>
+			<option
+				value="mysqli">COM_CONFIG_FIELD_VALUE_MYSQLI</option>
+            <option
+                value="mysqlx">PLG_SYSTEM_FALANGDRIVER_MYSQL_OVERRIDE</option>
+			<option
+				value="mysqlix">PLG_SYSTEM_FALANGDRIVER_MYSQLI_OVERRIDE</option>
+		</field>
+
+	</fieldset>
+</form>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="show_icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
+			<option value="1">Show</option>
+			<option value="0">Hide</option>
+		</param>
+	</params>
+	<fieldset name="component" label="COM_COMPONENT_LABEL" description="COM_COMPONENT_DESC" >
+		<field name="show_icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
+			<option value="1">Show</option>
+			<option value="0">Hide</option>
+		</field>
+	</fieldset>
+	
+</config>

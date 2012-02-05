@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="basic"
+		label="COM_FALANG_CONFIG_BASIC_LABEL"
+		description="COM_FALANG_CONFIG_BASIC_DESC">
+
+		<field name="@spacer" type="spacer" default="What to show if" label="What to show if" ></field>
+		<field name="noTranslation" type="list" default="2" label="No Translation available" description="NOTRANSLATION_HELP">
+			<option value="0">Original content</option>
+			<option value="1">Placeholder</option>
+			<option value="2">Original with info</option>
+			<option value="3">Original with alt</option>
+		</field>
+		<field name="defaultText" type="textarea" rows="3" cols="50" default="" label="Placeholder" description="TRANS_DEFAULT_HELP" ></field>
+
+		<field name="overwriteGlobalConfig" type="radio" default="1" label="Overwrite global config values" description="OVERWRITE_GLOBAL_CONFIG_HELP">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+
+		<field name="@spacer" type="spacer" default="Media files" label="Media files" description="" ></field>
+
+		<field name="@spacer" type="spacer" default="Managing translations" label="Managing translations" description="" ></field>
+		<field name="storageOfOriginal" type="list" default="md5" label="Store original version as" description="MNGORIGINAL_HELP">
+			<option value="md5">MD5 key only</option>
+			<option value="both">MD5 key and clear text</option>
+		</field>
+		<field name="showDefaultLanguageAdmin" type="radio" default="0" label="Show default language in administration" description="SHOWDEFAULTLANGUAGEADMIN_HELP">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+		<field name="@spacer" type="spacer" default="Advanced Users Only" label="Advanced Users Only" description="" ></field>
+		<field name="copyparams" type="radio" default="1" label="Copy original params to empty translation" description="COPYPARAMS_HELP">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+		<field name="@spacer" type="spacer" default="Caching Options" label="Caching Options for myssqli and mysql" ></field>
+		<field name="transcaching" type="radio" default="0" label="Enable translation caching" description="TRANS_CACHING_HELP">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+		<field name="cachelife" type="text" cols="50" default="180" label="Cache Life in Minutes" description="TRANS_CACHELIFE_HELP" ></field>
+		<field name="@spacer" type="spacer" default="Caching Options mysql" label="Caching Options for mysql only" ></field>
+	</fieldset>
+        <fieldset name="debug"
+		label="COM_FALANG_CONFIG_DEBUG_LABEL"
+		description="COM_FALANG_CONFIG_DEBUG_DESC">
+
+
+                <field name="qacaching" type="radio" default="1" label="Enable query analysis caching" description="QA_CACHING_HELP">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+
+		<field name="qalogging" type="radio" default="0" label="Enable query analysis logging" description="QA_LOGGING_HELP">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</field>
+	</fieldset>
+</config>

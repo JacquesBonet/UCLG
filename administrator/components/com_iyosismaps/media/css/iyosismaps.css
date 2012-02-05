@@ -1,0 +1,27 @@
+.icon-32-importdata {
+    background-image: url("../images/icon-32-importdata.png");
+}
+.icon-32-exportdata {
+    background-image: url("../images/icon-32-exportdata.png");
+}
+.icon-48-iyosismaps {
+    background-image: url("../images/icon-48-iyosismaps.png");
+}
+.icon-48-maps {
+    background-image: url("../images/icon-48-maps.png");
+}
+.icon-48-markers {
+    background-image: url("../images/icon-48-markers.png");
+}
+.icon-48-icons {
+    background-image: url("../images/icon-48-icons.png");
+}
+.icon-48-polylines {
+    background-image: url("../images/icon-48-polylines.png");
+}
+.icon-48-polygons {
+    background-image: url("../images/icon-48-polygons.png");
+}
+#map-slider {
+	margin:0;
+}

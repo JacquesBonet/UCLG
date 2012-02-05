@@ -1,0 +1,19 @@
+/* Copyright (C) YOOtheme GmbH, YOOtheme Proprietary Use License (http://www.yootheme.com/license) */
+
+.menu-dropdown a.level1,
+.menu-dropdown span.level1,
+.menu-sidebar a.level1 > span,
+.menu-sidebar span.level1 > span  { font-family: "Yanone Kaffeesatz"; }
+
+.menu-dropdown a.level1 > span,
+.menu-dropdown span.level1 > span { font-size: 22px; }
+
+.menu-dropdown .level1 .level1 span.title { line-height: 18px; }
+
+.menu-dropdown .level1 .level1 span.subtitle {
+	margin-top: 2px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu-sidebar a.level1 > span,
+.menu-sidebar span.level1 > span { font-size: 18px; }

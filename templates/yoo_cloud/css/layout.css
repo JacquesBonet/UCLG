@@ -1,0 +1,253 @@
+/* Copyright (C) YOOtheme GmbH, YOOtheme Proprietary Use License (http://www.yootheme.com/license) */
+
+@import url(../warp/css/layout.css);
+
+
+/* Spacing
+----------------------------------------------------------------------------------------------------*/
+
+#breadcrumbs
+{ margin: 5px 5px 5px 5px; }
+
+.module,
+#content { margin: 5px; }
+
+#menu .module {
+	margin: 10px;
+	color: #a2a2a4;
+	text-shadow: 0 1px 0 rgba(0,0,2,0.3);
+}
+
+#footer { margin-top: 15px; }
+#footer .module { margin: 0; }
+
+#search { margin-left: 0px; }
+#langUCLG { margin-left: 15px; float:left;width:160px }
+#breadcrumbsright { float:right;margin: 1px 0px 0px 0px; width:16px;height:16px; }
+
+#headerbar { margin-bottom: 0px; }
+
+/* Layout
+----------------------------------------------------------------------------------------------------*/
+body#page
+{
+background: white url(../images/bg.gif) repeat-x;
+color: #565656;
+}
+
+#toolbar {
+	padding: 3px;
+	line-height: 24px;
+	font-size: 12px;
+}
+
+/* Toolbar */
+#block-toolbar {
+/*
+	border-top: 1px solid #fdfdff;
+	border-bottom: 1px solid rgba(0,0,2,0.1);
+	background: url(../images/toolbar.png) 0 0 repeat-x;
+	box-shadow: 0 1px 0 rgba(253,253,255,0.5);
+*/
+}
+
+
+#block-header #top-a 
+{ 
+	margin: 1px 0 0px 0;
+	background: url(../images/header_bg.jpg) no-repeat top;
+	width: 100%;
+}
+
+#block-main { 
+/*	border-top: 1px solid #fff; */
+	padding: 0px 0;
+/*	background: #FAFBFC url(../images/main.jpg) 50% 0 no-repeat; */
+}
+
+#block-footer { 
+margin-top:10px;
+background: url(../images/footer_bg.jpg) repeat-x; }
+
+
+/* Menubar */
+#menubar {
+height: 37px;
+margin: 0px 15px 0px 0px;
+background: url(../images/menu_bg.gif) no-repeat right;
+}
+
+#menu { float: right; margin:0px 50px 0px 0px;width:535px}
+
+#main {
+    width: 100%;
+    margin: auto;
+}
+
+/* Content */
+#content,
+#breadcrumbs {
+	border: 2px solid #fff;
+	border-radius: 7px;
+	background: #F7F7F9;
+	box-shadow:
+		0 0 0 1px rgba(0,0,2,0.1),
+		0 1px 0 rgba(0,0,2,0.15),
+		0 1px 1px rgba(0,0,2,0.1);
+	text-shadow: 0 1px 0 rgba(253,253,255,1);
+}
+
+#breadcrumbs {
+	padding: 0px 13px;
+}
+
+#content {
+	padding: 13px 8px 0px 8px;
+}
+
+
+#footer {
+	font-size: 11px;
+	color: #646666;
+	text-shadow: 0 -1px 0 rgba(0,0,0,1);
+	text-align: left;
+}
+
+#toolbar a,
+#footer a { color: #646666; }
+
+#toolbar a:hover,
+#footer a:hover { color: #A0A3A4; }
+
+#footer > div { float: left; }
+
+#logo-footer { 
+	float: left;
+	margin: -20px 20px 20px 0;
+}
+
+/* ToTop Scroller */
+#totop-scroller {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1;
+	width: 23px;
+	height: 24px;
+	background: url(../images/totop_scroller.png) 0 0 no-repeat;
+	text-decoration: none;
+}
+#totop-scroller:hover { background-position: 0 -40px; }
+
+/* Absolute */
+#absolute {
+	position:�absolute;
+	z-index:�15;
+	width:�100%;
+}
+
+/*------------------------------
+=FOOTER
+------------------------------*/
+#footer .menu-nav {
+	float: left;
+	background: none;
+	padding: 0px;
+	height: auto;
+}
+#footer .menu-nav li{
+	float: left;
+	border-right: 1px solid #CCCCCC;
+	height: 12px;
+	padding: 0px;
+}
+#footer .menu-nav li.last,
+#footer .menu-nav li.item57{
+	border: 0px;
+}
+#footer .menu-nav a{
+	color: #999999;
+	padding: 0px 10px;
+	position: relative;
+	top: -3px;
+}
+#footer .menu-nav a:hover{
+	color: #fff;
+}
+#footer .copy{
+	float: left;
+	margin-left: 30px;
+	font-size: 13px;
+}
+.partners{
+	float: left;
+	margin: 10px 0px 0px 40px;
+}
+.partners li{
+	float: left;
+	text-align: center;
+}
+.partners li.center{
+	margin: 0px 22px;
+}
+.partners li span{
+	display: block;
+	font-size: 8px;
+}
+
+.diputacio{
+	display: block;
+	width: 124px;
+	height: 41px;
+	background: url(../images/diputacio.jpg) no-repeat center top;
+	text-indent: -999em;
+}
+.diputacio:hover{
+	background: url(../images/diputacio.jpg) no-repeat center bottom;
+}
+.generalitat{
+	display: block;
+	width: 156px;
+	height: 41px;
+	background: url(../images/generalitat.jpg) no-repeat center top;
+	text-indent: -999em;
+}
+.generalitat:hover{
+	background: url(../images/generalitat.jpg) no-repeat center bottom;
+}
+.partners .europe{
+	display: block;
+	width: 80px;
+	height: 11px;
+	padding-top: 40px;
+	background: url(../images/europe_flag.png) no-repeat center top;
+	text-indent: -999em;
+}
+.partners .europe span{
+	text-indent: 0em;
+}
+.partners .europe:hover{
+	background: url(../images/europe_flag.png) no-repeat center -51px;
+}
+
+ul.partners,
+ul.menu-nav
+{
+list-style : none outside none;
+}
+
+.sum-country-profile
+{
+    float: right;
+    margin-top: 20px;
+    padding: 60px 36px 0;
+    position: relative;
+    width: 230px;
+}
+
+#idTabsKeyIndicators,
+#idCountryprofiles,
+#idLinkDatabase {
+	margin : -22px -8px -13px -8px;
+}

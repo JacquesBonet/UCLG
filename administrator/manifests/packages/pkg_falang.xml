@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6">
+	<name>FaLang Package</name>
+	<author>Stéphane Bouey</author>
+	<creationDate>August 2011</creationDate>
+ 	<packagename>falang</packagename>
+	 <version>1.7.0b4</version>
+	 <url>http://www.faboba.com</url>
+	 <packager>Stéphane Bouey</packager>
+	 <packagerurl>http://www.faboba.com</packagerurl>
+	 <description>FaLang! Installer Package.</description>
+	 <files folder="packages">
+		 <file type="component" id="com_falang" >com_falang_170b4.zip</file>
+		 <file type="module" id="mod_falang" client="site">mod_falang_170b4.zip</file>
+		 <file type="plugin" id="falangdriver" group="system">plg_falangdriver_170b4.zip</file>
+		 <file type="library" id="lib_falangdriver" >lib_falangdriver_170b4.zip</file>
+	 </files>
+</extension>

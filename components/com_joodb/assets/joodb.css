@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+table.filterT tr.trcls th.thcls { margin: 1em auto; border-collapse: collapse; background-color: #DEDCCD; padding: 1px;color:#000000; font-size:11px;}
+table.filterT tr.filterColumns td.tdcls { font-size:11px; padding:2px; padding: 0.5em; text-align: center; border: 1px solid #0199FF; background-color: #EAf2FD;}
+thead.theadcls  th.thcls, tfoot.tfcls th.thcls { font-size:11px; padding: 0.5em; text-align: center; border-right: 1px solid #999999; border-top: 1px solid #999999; background-color: #AAF; }
+th.thcls2{ font-size:11px; padding: 0.5em;text-align: center; border-right: 1px solid #999999; border-top: 1px solid #999999; border-bottom: 1px solid #999999; background-color: #AAF; }
+tfoot.tfcls  td.tdcls { font-size:11px; border-top: 1px solid #999999;}
+tbody.tbcls  td.tdcls { font-size:11px; padding: 0.5em; border-right: 1px solid #999999; border-bottom: 1px solid #999999;}
+tbody.tbcls  tr.odd td { font-size:11px; background-color:#DEF7FF; }
+select.groupselect {width: 100px;}

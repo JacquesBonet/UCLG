@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_IYOSISMAPS_IYOSISMAPS_VIEW_DEFAULT_TITLE">
+		<message>COM_IYOSISMAPS_IYOSISMAPS_VIEW_DEFAULT_DESC</message>
+	</layout>
+	<fields
+		name="request"
+		addfieldpath="/administrator/components/com_iyosismaps/models/fields"
+	>
+		<fieldset name="request">
+			<field
+				name="id"
+				type="map"
+				label="COM_IYOSISMAPS_FIELD_MAP_LABEL"
+				description="COM_IYOSISMAPS_FIELD_MAP_DESC"
+				required="true"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

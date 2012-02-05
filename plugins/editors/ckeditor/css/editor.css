@@ -1,0 +1,22 @@
+@import url("../../../templates/yoo_cloud/css/base.css");
+@import url("../../../templates/yoo_cloud/css/layout.css");
+@import url("../../../templates/yoo_cloud/css/menus.css");
+@import url("../../../templates/yoo_cloud/css/modules.css");
+@import url("../../../templates/yoo_cloud/css/tools.css");
+@import url("../../../templates/yoo_cloud/css/system.css");
+@import url("../../../templates/yoo_cloud/css/extensions.css");
+@import url("../../../templates/yoo_cloud/css/custom.css");
+@import url("../../../templates/yoo_cloud/css/animations.css");
+@import url("../../../templates/yoo_cloud/css/arial.css");
+@import url("../../../templates/yoo_cloud/css/titillium.css" />
+@import url("../../../templates/yoo_cloud/css/style.css");
+@import url("../../../templates/yoo_cloud/css/print.css");
+
+body { "min-width: 1068px; }
+.wrapper { width: 1068px; }
+#sidebar-b { width: 380px; }
+#maininner { width: 688px; }
+#menu .dropdown { width: 250px; }
+#menu .columns2 { width: 500px; }
+#menu .columns3 { width: 750px; }
+#menu .columns4 { width: 1000px; }

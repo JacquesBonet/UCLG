@@ -1,0 +1,50 @@
+/* Copyright (C) YOOtheme GmbH, YOOtheme Proprietary Use License (http://www.yootheme.com/license) */
+
+
+/* Base
+----------------------------------------------------------------------------------------------------*/
+
+
+/* Layout
+----------------------------------------------------------------------------------------------------*/
+body#page {
+background: white url(../images/bg.gif) repeat-x;
+}
+
+#block-header #top-a 
+{ 
+	background: url(../images/header_bg.jpg) no-repeat top;
+}
+
+/* Menus
+----------------------------------------------------------------------------------------------------*/
+
+.menu-dropdown a.level1,
+.menu-dropdown span.level1 {
+	color: #505050;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.menu-dropdown li.active .level1 { background-image: url(../images/menu_dropdown_active.png); }
+
+
+/* Modules
+----------------------------------------------------------------------------------------------------*/
+
+#top-a .mod-line { background-image: url(../images/module_line_v_topa.png); }
+
+#top-a .grid-h .mod-line { background-image: url(../images/module_line_h_topa.png); }
+
+
+/* Tools
+----------------------------------------------------------------------------------------------------*/
+
+/* System
+----------------------------------------------------------------------------------------------------*/
+
+/* Extensions
+----------------------------------------------------------------------------------------------------*/
+
+/* Custom
+----------------------------------------------------------------------------------------------------*/
+

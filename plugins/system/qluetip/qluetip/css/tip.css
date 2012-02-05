@@ -1,0 +1,131 @@
+/**
+ * Qlue ToolTip - Content Plugin
+ *
+ * @author Aaron Harding 
+ * @package Qlue ToolTip
+ * @license GNU/GPL
+ *
+ * This plugin will convert a basic syntax of {QlueTip title=[tooltip]}Tool Tip Text{/QlueTip} into a valid tooltip.
+ * The user can add extra parameters to the syntax to match their needs. For further information visit http://www.Qlue.co.uk.
+ */
+ 
+.toggle {
+	cursor: pointer;
+}
+
+.qTip { 
+}
+
+.default .QTip-tl {
+	background: url(../images/tip-tl.png) 0 0 no-repeat;
+	position: relative;
+}
+
+.default .QTip-t {
+	background: url(../images/tip-t.png) repeat-x;
+	height: 16px;
+}
+
+.default .QTip-tr {
+	background: url(../images/tip-tr.png) no-repeat right;
+	padding: 0px 7px 0px 7px;
+}
+
+.default .QTip-l {
+	background: url(../images/tip-l.png) repeat-y;
+}
+
+.default .QTip-content {
+	overflow: hidden;
+	background: #fff;
+	padding: 0 7px;
+}
+
+.default .QTip-r {
+	background: url(../images/tip-r.png) repeat-y right;
+	padding: 0px 7px 0px 7px;
+}
+
+.default .QTip-bl {
+	background: url(../images/tip-bl.png) no-repeat;
+}
+
+.default .QTip-br {
+	background: url(../images/tip-br.png) no-repeat right 0;
+	padding: 0px 7px 0px 7px;
+}
+
+.default .QTip-b {
+	background: url(../images/tip-b.png) repeat-x;
+}
+
+.default .QTip-arrow {
+	background: url(../images/tip-point.png) no-repeat center bottom;
+	height: 36px;
+}
+
+.QTip-close {
+	position: absolute;
+	top: 4px;
+	right: 5px;
+	width: 16px;
+	height: 16px;
+	background: url(../images/close.png) 0 0 no-repeat;
+	cursor: pointer;
+}
+/*New CSS Class*/
+.qlue-customTooltipClass .toggle{
+  cursor: pointer;
+}
+.qlue-customTooltipClass .QTip-content{
+  overflow: hidden;
+  background: #444;
+  padding: 5px;
+  width: 200px;
+  color: #FAFBFC;
+  border: 1px solid #E1E1E1;
+  border-bottom: 5px solid #AFCA17;
+  cursor: pointer;
+  text-align: center;
+}
+.qlue-customTooltipClass .tipMod{
+  margin: 0;
+}
+.qlue-customTooltipClass .QTip-arrow{
+  display: none;
+}
+
+/*New Pink CSS Class*/
+.qlue-customTooltipClassPink .QTip-content{
+  overflow: hidden;
+  background: #FF00AA;
+  padding: 5px;
+  width: 200px;
+  color: #444;
+  border: 1px solid #E1E1E1;
+  border-bottom: 5px solid #000;
+  cursor: pointer;
+}
+.qlue-customTooltipClassPink .tipMod{
+  margin: 0;
+}
+.qlue-customTooltipClassPink .QTip-arrow{
+  display: none;
+}
+/*New Blue CSS Class*/
+.qlue-customTooltipClassBlue .QTip-content{
+  overflow: hidden;
+  background: #2A55FF;
+  padding: 5px;
+  width: 200px;
+  color: #FFF;
+  border: 1px solid #E1E1E1;
+  border-bottom: 5px solid #000;
+  cursor: pointer;
+}
+.qlue-customTooltipClassBlue .tipMod{
+  margin: 0;
+}
+.qlue-customTooltipClassBlue .QTip-arrow{
+  display: none;
+}

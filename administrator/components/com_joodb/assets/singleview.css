@@ -1,0 +1,14 @@
+/** Lightbox form styles **/
+
+div.m {
+	border: 1px solid #CCC;
+	padding: 0 8px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	 background-color: #fff !important;
+}
+
+#toolbar-box, #element-box { background-color: #fff !important; }
+
+#toolbar-box div.m {  background-color: #F4F4F4 !important; }

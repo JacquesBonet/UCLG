@@ -1,0 +1,35 @@
+<a class="logo" href="#" title="Global Observatory on Local Democracy and Decentralisation">Global Observatory on Local Democracy and Decentralisation</a>
+<h4 style="margin-top: 40px; margin-left:400px"><span style="font-size: 12pt;">Bienvenido a la </span>
+</h4>
+<h2 style="margin-left: 360px; margin-top:10px">Observary Mundial sobre Democraty Local y Descentralizaci&oacute;n
+</h2>
+<?php
+if ($_SESSION['uclg_section'] == 'africa')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">África</h2>';
+else
+if ($_SESSION['uclg_section'] == 'asia-pacific')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">Asia y el Pacífico</h2>';
+else
+if ($_SESSION['uclg_section'] == 'eurasia')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">Eurasia</h2>';
+else
+if ($_SESSION['uclg_section'] == 'ue')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">Unión European</h2>';
+else
+if ($_SESSION['uclg_section'] == 'hors-ue')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">Europea</h2>';
+else
+if ($_SESSION['uclg_section'] == 'latin-america')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">América Latina</h2>';
+else
+if ($_SESSION['uclg_section'] == 'north-america')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">América del Norte</h2>';
+else
+if ($_SESSION['uclg_section'] == 'mewa')
+  echo '<h2 style="text-align: right; margin : 30px 18px 20px 0px;">Oriente Medio y Asia Occidental</h2>';
+else
+{
+  echo '<h2 style="text-align: right; margin-top : 20px; margin-right: 18px;">Mundo</h2>';
+  echo "<div style=\"margin-top:-25px;float:left;padding:40px 0px 0px 0px;width:1040px; height:272px; background-image:url(/images/region_selection_bg.png)\">{iyosismaps id=2}</div>";
+}
+?>

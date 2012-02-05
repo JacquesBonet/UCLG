@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<install type="library" version="1.7">
+	<name>lib_falang</name>
+	<libraryname>joomla/database/database</libraryname>
+	<author>Stéphane Bouey</author>
+	<creationDate>August 2011</creationDate>
+	<copyright>2011, Faboba</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>stephane.bouey@faboba.com</authorEmail>
+	<authorUrl>www.faboba.com</authorUrl>
+	<version>1.7.0b4</version>
+	<description>FaLang driver use to override sql call</description>
+
+	<files>
+	    <file>mysqlx.php</file>
+	    <file>mysqlix.php</file>
+	</files>
+	
+</install>

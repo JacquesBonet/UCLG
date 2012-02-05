@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="iyosismaps"
+		label="COM_IYOSISMAPS_OPTIONS_DISPLAY_LABEL"
+		description=""
+	>
+		<field
+			name="showtitle"
+			type="list"
+			label="COM_IYOSISMAPS_OPTIONS_FIELD_SHOW_TITLE_LABEL"
+			description=""
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="mapalign"
+			type="list"
+			label="COM_IYOSISMAPS_OPTIONS_FIELD_MAP_ALIGN_LABEL"
+			description=""
+			default="2"
+		>
+			<option value="0">COM_IYOSISMAPS_LEFT</option>
+			<option value="1">COM_IYOSISMAPS_RIGHT</option>
+			<option value="2">COM_IYOSISMAPS_CENTER</option>
+		</field>
+		<field
+			name="footerlink"
+			type="list"
+			label="COM_IYOSISMAPS_OPTIONS_FIELD_SHOW_FOOTERLINK_LABEL"
+			description=""
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+	</fieldset>
+</config>

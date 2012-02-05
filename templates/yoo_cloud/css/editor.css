@@ -1,0 +1,22 @@
+@import url("base.css");
+@import url("layout.css");
+@import url("menus.css");
+@import url("modules.css");
+@import url("tools.css");
+@import url("system.css");
+@import url("extensions.css");
+@import url("custom.css");
+@import url("animations.css");
+@import url("arial.css");
+@import url("titillium.css" />
+@import url("style.css");
+@import url("print.css");
+
+body { "min-width: 1068px; }
+.wrapper { width: 1068px; }
+#sidebar-b { width: 380px; }
+#maininner { width: 688px; }
+#menu .dropdown { width: 250px; }
+#menu .columns2 { width: 500px; }
+#menu .columns3 { width: 750px; }
+#menu .columns4 { width: 1000px; }

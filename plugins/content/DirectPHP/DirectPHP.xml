@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="content">
+	<name>DirectPHP</name>
+	<author>kksou</author>
+	<creationDate>Oct 2011</creationDate>
+	<copyright>(C) kksou.com. All Rights Reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>support@kksou.com</authorEmail>
+	<authorUrl>www.kksou.com/php-gtk2/</authorUrl>
+	<version>1.7</version>
+	<description>This plugin allows direct embedding of PHP commands right inside Joomla content page for dynamic contents. To see examples of using this plugin, please refer to: http://www.kksou.com/php-gtk2/Joomla/DirectPHP-plugin.php</description>
+	<files>
+		<filename plugin="DirectPHP">DirectPHP.php</filename>
+	</files>
+	<config>
+			<fields name="params">
+				<fieldset name="basic">
+					<field name="using_no_editor"
+						type="radio"
+						default="0"
+						description="Select Yes if you are not using any editor"
+						label="Using No Editor">
+						<option value="1">Yes</option>
+						<option value="0">No</option>
+					</field>
+				</fieldset>
+
+				<fieldset name="advanced">
+					<field name="block_list"
+						type="textarea"
+						default="basename, chgrp, chmod, chown, clearstatcache, copy, delete, dirname, disk_free_space, disk_total_space, diskfreespace, fclose, feof, fflush, fgetc, fgetcsv, fgets, fgetss, file_exists, file_get_contents, file_put_contents, file, fileatime, filectime, filegroup, fileinode, filemtime, fileowner, fileperms, filesize, filetype, flock, fnmatch, fopen, fpassthru, fputcsv, fputs, fread, fscanf, fseek, fstat, ftell, ftruncate, fwrite, glob, lchgrp, lchown, link, linkinfo, lstat, move_uploaded_file, opendir, parse_ini_file, pathinfo, pclose, popen, readfile, readdir, readllink, realpath, rename, rewind, rmdir, set_file_buffer, stat, symlink, tempnam, tmpfile, touch, umask, unlink, fsockopen, system, exec, passthru, escapeshellcmd, pcntl_exec, proc_open, proc_close, mkdir, rmdir" label="PHP commands to block"
+						description="Direct PHP commands to block from within content page"
+						cols="20" rows="10"
+					/>
+
+					
+
+				</fieldset>
+			</fields>
+		</config>
+</extension>

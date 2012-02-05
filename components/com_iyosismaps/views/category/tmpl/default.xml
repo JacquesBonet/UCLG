@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_IYOSISMAPS_IYOSISMAPS_VIEW_CATEGORY_TITLE">
+		<message>COM_IYOSISMAPS_IYOSISMAPS_VIEW_CATEGORY_DESC</message>
+	</layout>
+	<fields
+		name="request"
+		addfieldpath="/administrator/components/com_iyosismaps/models/fields"
+	>
+		<fieldset name="request">
+			<field
+				name="id"
+				type="map"
+				label="COM_IYOSISMAPS_FIELD_MAP_LABEL"
+				description="COM_IYOSISMAPS_FIELD_MAP_DESC"
+				required="true"
+			/>
+			<field 
+				name="catid"
+				type="category"
+				extension="com_iyosismaps"
+				label="COM_IYOSISMAPS_FIELD_CATID_LABEL"
+				description="COM_IYOSISMAPS_FIELD_CATID_DESC"
+				required="true"
+				default="0"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

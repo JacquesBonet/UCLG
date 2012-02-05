@@ -1,0 +1,572 @@
+<?php
+/**
+ * @package Iyosis Maps for Joomla!
+ * @author Remzi Degirmencioglu
+ * @copyright (C) 2011 www.iyosis.com
+ * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+**/
+ 
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.modelitem' );
+
+class IyosisMapsModelMap extends JModelItem
+{
+	/**
+	 * @var string
+	 */
+	protected $map;
+	/**
+	 * @var string
+	 */
+	protected $markers;
+	/**
+	 * @var string
+	 */
+	protected $polylines;
+	/**
+	 * @var string
+	 */
+	protected $polygons;
+	/**
+	 * @var string
+	 */
+	protected $categories;
+ 
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function populateState() 
+	{
+		$app = JFactory::getApplication();
+
+		// Get the map id
+		$id = JRequest::getInt('id');
+		$this->setState('map.id', $id);
+
+		// Get the category id
+		$catid = JRequest::getInt('catid');
+		$this->setState('cat.id', $catid);
+ 
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+		parent::populateState();
+	}
+
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	 * @since	1.6
+	 */
+	public function getTable($type = 'Maps', $prefix = 'IyosisMapsTable', $config = array()) 
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	public function getMap($id = null)
+	{
+		if (!isset($this->map)) 
+		{
+			//$id = $this->getState('map.id');
+
+			//$table = $this->getTable();
+
+			// Load the data
+			//$table->load($id);
+
+			// Assign the data
+			//$this->map = $table;
+
+			$this->_db->setQuery($this->_db->getQuery(true)
+				->from('#__iyosismaps_maps as map')
+				->select('map.*')
+				->where('map.id= ' . $id . ' AND map.published=1'));
+			if (!$this->map = $this->_db->loadObject()) 
+			{
+				$this->setError($this->_db->getError());
+			}
+			else
+			{
+				// Load the JSON string
+				$params = new JRegistry;
+				$params->loadJSON($this->map->params);
+				$this->map->params = $params;
+ 
+				// Merge global params with map params
+				$params = clone $this->getState('params');
+				$params->merge($this->map->params);
+				$this->map->params = $params;
+			}
+		}
+		return $this->map;
+	}
+
+	public function getCategories()
+	{
+		if (!isset($this->categories)) 
+		{
+			$this->_db->setQuery($this->_db->getQuery(true)
+				->from('#__categories as c')
+				->select('c.id, c.parent_id, c.level, c.extension, c.title, c.alias, c.published')
+				->where('c.extension="com_iyosismaps" AND c.published=1'));
+			if (!$this->categories = $this->_db->loadObjectList()) 
+			{
+				$this->setError($this->_db->getError());
+			}
+		}
+		return $this->categories;
+	}
+
+	public function getChildCategories($catids)
+	{
+		$childcatids = array();
+		foreach ($this->categories as $category) {
+			foreach ($catids as $catid) {
+				if ($category->parent_id == $catid) array_push($childcatids, $category->id);
+			}
+		}
+		return $childcatids;
+	}
+
+	public function getMarkers($id)
+	{
+		if (!isset($this->markers))
+		{
+			//$id = $this->getState('map.id');
+			$catid = $this->getState('cat.id');
+			$where = 'm.mapid=' . (int)$id;
+			if ($catid) {
+				$this->_db->setQuery($this->_db->getQuery(true)
+					->from('#__categories as c')
+					->select('c.extension')
+					->where('c.id = ' . $catid));
+				if ($this->_db->loadResult() == 'com_iyosismaps') {
+					$catids = array($catid);
+					$where = $where.' AND ( m.catid=' . (int)$catid;
+					while ($childcatids = $this->getChildCategories($catids)) {
+						foreach ($childcatids as $childcatid) {
+							$where = $where.' OR m.catid=' . (int)$childcatid;
+						}
+						$catids = $childcatids;
+					}
+					$where = $where.' )';
+				}
+			}
+			$this->_db->setQuery($this->_db->getQuery(true)
+				->from('#__iyosismaps_markers as m')
+				->leftJoin('#__categories as c ON m.catid=c.id')
+				->select('m.*, c.title as category')
+				->where('m.published = 1 AND ' . $where));
+			if (!$this->markers = $this->_db->loadObjectList()) 
+			{
+				$this->setError($this->_db->getError());
+			}
+		}
+		return $this->markers;
+	}
+
+	public function getPolylines($id)
+	{
+		if (!isset($this->polylines)) 
+		{
+			//$id = $this->getState('map.id');
+			$catid = $this->getState('cat.id');
+			$where = 'pi.mapid=' . (int)$id;
+			if ($catid) {
+				$this->_db->setQuery($this->_db->getQuery(true)
+					->from('#__categories as c')
+					->select('c.extension')
+					->where('c.id = ' . $catid));
+				if ($this->_db->loadResult() == 'com_iyosismaps') {
+					$catids = array($catid);
+					$where = $where.' AND ( pi.catid=' . (int)$catid;
+					while ($childcatids = $this->getChildCategories($catids)) {
+						foreach ($childcatids as $childcatid) {
+							$where = $where.' OR pi.catid=' . (int)$childcatid;
+						}
+						$catids = $childcatids;
+					}
+					$where = $where.' )';
+				}
+			}
+			$this->_db->setQuery($this->_db->getQuery(true)
+				->from('#__iyosismaps_polylines as pi')
+				->leftJoin('#__categories as c ON pi.catid=c.id')
+				->select('pi.*, c.title as category')
+				->where('pi.published = 1 AND ' . $where));
+			if (!$this->polylines = $this->_db->loadObjectList()) 
+			{
+				$this->setError($this->_db->getError());
+			}
+		}
+		return $this->polylines;
+	}
+
+	public function getPolygons($id)
+	{
+		if (!isset($this->polygons)) 
+		{
+			//$id = $this->getState('map.id');
+			$catid = $this->getState('cat.id');
+			$where = 'po.mapid=' . (int)$id;
+			if ($catid) {
+				$this->_db->setQuery($this->_db->getQuery(true)
+					->from('#__categories as c')
+					->select('c.extension')
+					->where('c.id = ' . $catid));
+				if ($this->_db->loadResult() == 'com_iyosismaps') {
+					$catids = array($catid);
+					$where = $where.' AND ( po.catid=' . (int)$catid;
+					while ($childcatids = $this->getChildCategories($catids)) {
+						foreach ($childcatids as $childcatid) {
+							$where = $where.' OR po.catid=' . (int)$childcatid;
+						}
+						$catids = $childcatids;
+					}
+					$where = $where.' )';
+				}
+			}
+			$this->_db->setQuery($this->_db->getQuery(true)
+				->from('#__iyosismaps_polygons as po')
+				->leftJoin('#__categories as c ON po.catid=c.id')
+				->select('po.*, c.title as category')
+				->where('po.published = 1 AND ' . $where));
+			if (!$this->polygons = $this->_db->loadObjectList()) 
+			{
+				$this->setError($this->_db->getError());
+			}
+		}
+		return $this->polygons;
+	}
+
+	public function getHTML()
+	{
+		if ($this->map->params->get('mapalign', '2')==0) $mapalign = false;
+		elseif ($this->map->params->get('mapalign', '2')==1) $mapalign = "margin-left:auto;margin-right:0";
+		else $mapalign = "margin:0 auto";
+
+		$mapwidth = $this->map->width ? $this->map->width : '500';
+		$mapheight = $this->map->height ? $this->map->height : '300';
+
+		$html = "<div id=\"map_canvas\" style=\"width:".$mapwidth."px;height:".$mapheight."px;";
+		if($mapalign) $html .= $mapalign;
+		$html .= "\"></div>";
+
+		return $html;
+	}
+
+	public function getJavascript($id = null)
+	{
+		if(is_null($id)) $id = $this->getState('map.id');
+
+		$this->getMap($id);
+		$this->getCategories();
+		$this->getMarkers($id);
+		$this->getPolylines($id);
+		$this->getPolygons($id);
+
+		$lat = $this->map->latitude;
+		$lng = $this->map->longitude;
+		$pancontrol = $this->map->pancontrol;
+		$zoomcontrol = $this->map->zoomcontrol;
+		$zoomcontrolstyle = $this->map->zoomcontrolstyle;
+		$maptypecontrol = $this->map->maptypecontrol;
+		$maptypecontrolstyle = $this->map->maptypecontrolstyle;
+		$scalecontrol = $this->map->scalecontrol;
+		$streetviewcontrol = $this->map->streetviewcontrol;
+		$overviewmapcontrol = $this->map->overviewmapcontrol;
+		$scrollwheel = $this->map->scrollwheel;
+		$disabledoubleclickzoom = $this->map->disabledoubleclickzoom;
+		$draggable = $this->map->draggable;
+		$zoomlevel = $this->map->zoomlevel ? $this->map->zoomlevel : '2';
+		$maxzoom = $this->map->maxzoom ? $this->map->maxzoom : false;
+		$minzoom = $this->map->minzoom ? $this->map->minzoom : false;
+		$maptype = $this->map->maptype;
+
+		//General map settings
+		$js = "<script type=\"text/javascript\">\n";
+		$js = $js."\tvar map;\n";
+		$js = $js."\tfunction initialize() {
+		var lat, lng;
+			lat = ".$lat.";
+			lng = ".$lng.";
+		var latlngcenter = new google.maps.LatLng(lat,lng);
+		var infowindowMarker, infowindowPolyline;
+		var myOptions = {
+			panControl: ".$pancontrol.",
+			zoomControl: ".$zoomcontrol.",
+			zoomControlOptions: {style: google.maps.ZoomControlStyle.".$zoomcontrolstyle."},
+			mapTypeControl: ".$maptypecontrol.",
+			mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.".$maptypecontrolstyle."},
+			scaleControl: ".$scalecontrol.",
+			streetViewControl: ".$streetviewcontrol.",
+			overviewMapControl: ".$overviewmapcontrol.",
+			scrollwheel: ".$scrollwheel.",
+			disableDoubleClickZoom: ".$disabledoubleclickzoom.",
+			draggable: ".$draggable.",
+			zoom: ".$zoomlevel.",\n";
+			if ($maxzoom) $js = $js."\t\tmaxZoom: ".$maxzoom.",\n";
+			if ($minzoom) $js = $js."\t\tminZoom: ".$minzoom.",\n";
+			$js = $js."\t\t\tcenter: latlngcenter,
+			mapTypeId: google.maps.MapTypeId.".$maptype."
+		};
+		map = new google.maps.Map(document.getElementById(\"map_canvas\"), myOptions);\n";
+			//Markers
+			if($this->map->centermarker||$this->markers) {
+				//Center Marker
+				if($this->map->centermarker) $js = $js.$this->getMarker($lat, $lng, $this->map->iconid, $this->map->infowindow, $this->map->description, $this->map->title, "0");
+				//Other Markers
+				if($this->markers) {
+					foreach($this->markers as $marker) {
+						$id = $marker->id;
+						$title = $marker->title;
+						$latitude = $marker->latitude;
+						$longitude = $marker->longitude;
+						$iconid = $marker->iconid;
+						$infowindow = $marker->infowindow;
+						$content = $marker->description;
+						$js = $js.$this->getMarker($latitude, $longitude, $iconid, $infowindow, $content, $title, $id);
+					}
+				}
+				//Marker Info Window
+				$js = $js."\t\tfunction createInfoWindowMarker(marker,content) {\n";
+					$js = $js."\t\t\tinfowindowMarker = new google.maps.InfoWindow()\n";
+					$js = $js."\t\t\tgoogle.maps.event.addListener(marker,'click',function(event) {\n";
+						$js = $js."\t\t\t\tinfowindowMarker.setContent(content);\n";
+						$js = $js."\t\t\t\tinfowindowMarker.open(map,marker);\n";
+						$js = $js."\t\t\t\tif (infowindowPolyline) {infowindowPolyline.close();};\n";
+						$js = $js."\t\t\t\tif (infowindowPolygon) {infowindowPolygon.close();}});\n";
+				$js = $js."\t\t}\n";
+			}
+			//Polylines
+			if($this->polylines) {
+				foreach($this->polylines as $polyline) {
+					$id = $polyline->id;
+					$title = $polyline->title;
+					$coordinates = $polyline->coordinates;
+					$strokecolor = $polyline->strokecolor ? $polyline->strokecolor : 'FF0000';
+					$strokeopacity = $polyline->strokeopacity ? $polyline->strokeopacity : '1.0';
+					$strokeweight = $polyline->strokeweight ? $polyline->strokeweight : '2';
+					$infowindow = $polyline->infowindow;
+					$content = $polyline->description;
+					$js = $js.$this->getPolyline($coordinates, $infowindow, $content, $title, $id, $strokecolor, $strokeopacity, $strokeweight);
+				}
+				//Polyline Info Window
+				$js = $js."\t\tfunction createInfoWindowPolyline(polyline,content) {\n";
+					$js = $js."\t\t\tinfowindowPolyline = new google.maps.InfoWindow()\n";
+					$js = $js."\t\t\tgoogle.maps.event.addListener(polyline,'click',function(event) {\n";
+						$js = $js."\t\t\t\tinfowindowPolyline.setContent(content);\n";
+						$js = $js."\t\t\t\tinfowindowPolyline.position=event.latLng;\n";
+						$js = $js."\t\t\t\tinfowindowPolyline.open(map);\n";
+						$js = $js."\t\t\t\tif (infowindowMarker) {infowindowMarker.close();};\n";
+						$js = $js."\t\t\t\tif (infowindowPolygon) {infowindowPolygon.close();}});\n";
+				$js = $js."\t\t}\n";
+			}
+			//Polygons
+			if($this->polygons) {
+				foreach($this->polygons as $polygon) {
+					$id = $polygon->id;
+					$title = $polygon->title;
+					$coordinates = $polygon->coordinates;
+					$strokecolor = $polygon->strokecolor ? $polygon->strokecolor : 'FF0000';
+					$strokeopacity = $polygon->strokeopacity ? $polygon->strokeopacity : '1.0';
+					$strokeweight = $polygon->strokeweight ? $polygon->strokeweight : '2';
+					$fillcolor = $polygon->fillcolor ? $polygon->fillcolor : '000000';
+					$fillopacity = $polygon->fillopacity ? $polygon->fillopacity : '0.5';
+					$infowindow = $polygon->infowindow;
+					$content = $polygon->description;
+					$js = $js.$this->getPolygon($coordinates, $infowindow, $content, $title, $id, $strokecolor, $strokeopacity, $strokeweight, $fillcolor, $fillopacity);
+				}
+				//Polygon Info Window
+				$js = $js."\t\tfunction createInfoWindowPolygon(polygon,content) {\n";
+					$js = $js."\t\t\tinfowindowPolygon = new google.maps.InfoWindow()\n";
+					$js = $js."\t\t\tgoogle.maps.event.addListener(polygon,'click',function(event) {\n";
+						$js = $js."\t\t\t\tinfowindowPolygon.setContent(content);\n";
+						$js = $js."\t\t\t\tinfowindowPolygon.position=event.latLng;\n";
+						$js = $js."\t\t\t\tinfowindowPolygon.open(map);\n";
+						$js = $js."\t\t\t\tif (infowindowMarker) {infowindowMarker.close();};\n";
+						$js = $js."\t\t\t\tif (infowindowPolyline) {infowindowPolyline.close();}});\n";
+				$js = $js."\t\t}\n";
+			}
+			//Close Infowindows
+			$js = $js."\t\tgoogle.maps.event.addListener(map, 'click', function() {\n";
+				$js = $js."\t\t\tif (infowindowMarker) {infowindowMarker.close();}\n";
+				$js = $js."\t\t\tif (infowindowPolyline) {infowindowPolyline.close();}\n";
+				$js = $js."\t\t\tif (infowindowPolygon) {infowindowPolygon.close();}\n";
+			$js = $js."\t\t});\n";
+
+			//KML
+			if($this->map->kml&&$this->map->kmlurl) {
+				$js = $js."\t\tvar kmlLayer = new google.maps.KmlLayer('".$this->map->kmlurl."');\n";
+				$js = $js."\t\tkmlLayer.setMap(map);\n";
+			}
+
+		$js = $js."\t}\n";
+
+		//$js = $js."\t\tfunction showInfoWindow(layerToShow) {google.maps.event.trigger(layerToShow, \"click\");}";
+
+		/*$js = $js."
+		function calcRoute() {
+			var start;
+			if(document.getElementById(\"optionStart\").value) {
+				start = document.getElementById(\"optionStart\").value;
+			} else {
+				start = document.getElementById(\"textStart\").value;
+			}
+			var end;
+			if(document.getElementById(\"optionEnd\").value) {
+				end = document.getElementById(\"optionEnd\").value;
+			} else {
+				var end = document.getElementById(\"textEnd\").value;
+			}
+			var request = {
+				origin:start,
+				destination:end,
+				travelMode: google.maps.TravelMode.DRIVING
+			};
+			directionsService.route(request, function(result, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					directionsDisplay.setDirections(result);
+				}
+			});
+		}";*/
+
+		$js = $js."\twindow.onload = initialize;\n";
+		$js = $js."  </script>\n";
+
+		$document = JFactory::getDocument();
+		$document->addCustomTag($js);
+
+		return false;
+	}
+
+	public function getMarker($lat, $lng, $iconid, $infowindow, $description, $title, $ID)
+	{
+		$this->_db->setQuery($this->_db->getQuery(true)
+			->from('#__iyosismaps_icons as i')
+			->select('i.*')
+			->where('i.id = ' . $iconid . '  AND published = 1'));
+		if (!$icon = $this->_db->loadObject()) 
+		{
+			$this->setError($this->_db->getError());
+		}
+		/*$db =& JFactory::getDBO();
+		$query = ' SELECT * FROM #__iyosismaps_icons '.
+				'  WHERE id = '.$iconid.' AND published = 1';
+		$db->setQuery( $query );
+		$icon = $db->loadObject();*/
+
+		$iconsize = $icon->iconsize;
+		$iconorigin = $icon->iconorigin;
+		$iconanchor = $icon->iconanchor;
+		$shadow = $icon->shadow;
+		$shadowsize = $icon->shadowsize;
+		$shadoworigin = $icon->shadoworigin;
+		$shadowanchor = $icon->shadowanchor;
+
+		$marker = "\t\tvar Latlng1".$ID." = new google.maps.LatLng(".$lat.",".$lng.");\n";
+		if($icon->icon) {
+			if ($iconsize||$iconorigin||$iconanchor) {
+				$marker = $marker."\t\tvar image1".$ID." = new google.maps.MarkerImage('".$icon->icon."'";
+				$marker = $iconsize ? $marker.",new google.maps.Size(".$iconsize.")" : $marker.",null ";
+				$marker = $iconorigin ? $marker.",new google.maps.Point(".$iconorigin.")" : $marker.",null ";
+				$marker = $iconanchor ? $marker.",new google.maps.Point(".$iconanchor.")" : $marker.",null ";
+				$marker = $marker.");\n";
+			} else {
+				$marker = $marker."\t\tvar image1".$ID." = '".$icon->icon."';\n";
+			}
+		}
+		if($shadow) {
+			if ($shadowsize||$shadowanchor) {
+				$marker = $marker."\t\tvar shadow1".$ID." = new google.maps.MarkerImage('".$shadow."'";
+				$marker = $shadowsize ? $marker.",new google.maps.Size(".$shadowsize.")" : $marker.",null ";
+				$marker = $shadoworigin ? $marker.",new google.maps.Point(".$shadoworigin.")" : $marker.",null ";
+				$marker = $shadowanchor ? $marker.",new google.maps.Point(".$shadowanchor.")" : $marker.",null ";
+				$marker = $marker.");\n";
+			} else {
+				$marker = $marker."\t\tvar shadow1".$ID." = '".$shadow."';\n";
+			}
+		}
+		$marker = $marker."\t\tvar marker1".$ID." = new google.maps.Marker({position: Latlng1".$ID.", map: map, title:\"".$title."\"";
+		if (!$infowindow) $marker = $marker.", clickable: false";
+		if ($icon->icon) $marker = $marker.", icon: image1".$ID;
+		if ($shadow) $marker = $marker.", shadow: shadow1".$ID;
+		$marker = $marker."});\n";
+		if($infowindow) {
+			$description = str_replace("'", "\'", $description);
+			$description = str_replace("\r\n", "'+\r\t\t'", $description);
+			$marker = $marker."\t\tvar infowindowContent1".$ID." = '".$description."';\n";
+			$marker = $marker."\t\tcreateInfoWindowMarker(marker1".$ID.",infowindowContent1".$ID.");\n";
+		}
+		return $marker;		
+	}
+
+	public function getPolyline($coordinates, $infowindow, $description, $title, $ID, $strokecolor, $strokeopacity, $strokeweight)
+	{
+		$polyline = "\t\tvar coordinates2".$ID." = [\n";
+		$coordinates = str_replace("\n", "", $coordinates);
+		$coordinates = str_replace("\r", "", $coordinates);
+		$coordinates = explode(";", $coordinates);
+		$coordinates = array_filter($coordinates);
+		$i = 0;
+		$len = count($coordinates);
+		foreach ($coordinates as $coordinate) {
+			if ($i == $len - 1) $polyline .= "\t\tnew google.maps.LatLng".$coordinate."\n";
+			else $polyline .= "\t\tnew google.maps.LatLng".$coordinate.",\n";
+			$i++;
+		}
+		$polyline .= "\t\t];\n";
+		$polyline .= "\t\tvar polyline2".$ID." = new google.maps.Polyline({path: coordinates2".$ID.",map: map,strokeColor: '#".$strokecolor."',strokeOpacity: ".$strokeopacity.",strokeWeight: ".$strokeweight;
+			if (!$infowindow) $polyline = $polyline.", clickable: false";
+			$polyline = $polyline."});\n";
+		if($infowindow&&$description) {
+			$description = str_replace("'", "\'", $description);
+			$description = str_replace("\r\n", "'+\r\t\t'", $description);
+			$polyline .= "\t\tvar infowindowContent2".$ID." = '".$description."';\n";
+			$polyline .= "\t\tcreateInfoWindowPolyline(polyline2".$ID.",infowindowContent2".$ID.");\n";
+		}
+		return $polyline;		
+	}
+
+	public function getPolygon($coordinates, $infowindow, $description, $title, $ID, $strokecolor, $strokeopacity, $strokeweight, $fillcolor, $fillopacity)
+	{
+		$polygon = "\t\tvar coordinates3".$ID." = [\n";
+		$coordinates = str_replace("\n", "", $coordinates);
+		$coordinates = str_replace("\r", "", $coordinates);
+		$coordinates = explode(";", $coordinates);
+		$coordinates = array_filter($coordinates);
+		$i = 0;
+		$len = count($coordinates);
+		foreach ($coordinates as $coordinate) {
+			if ($i == $len - 1) $polygon .= "\t\tnew google.maps.LatLng".$coordinate."\n";
+			else $polygon .= "\t\tnew google.maps.LatLng".$coordinate.",\n";
+			$i++;
+		}
+		$polygon .= "\t\t];\n";
+		$polygon .= "\t\tvar polygon3".$ID." = new google.maps.Polygon({path: coordinates3".$ID.",map: map,strokeColor: '#".$strokecolor."',strokeOpacity: ".$strokeopacity.",strokeWeight: ".$strokeweight.",fillColor: '#".$fillcolor."',fillOpacity: ".$fillopacity;
+			if (!$infowindow) $polygon = $polygon.", clickable: false";
+			$polygon = $polygon."});\n";
+		if($infowindow&&$description) {
+			$description = str_replace("'", "\'", $description);
+			$description = str_replace("\r\n", "'+\r\t\t'", $description);
+			$polygon .= "\t\tvar infowindowContent3".$ID." = '".$description."';\n";
+			$polygon .= "\t\tcreateInfoWindowPolygon(polygon3".$ID.",infowindowContent3".$ID.");\n";
+		}
+		return $polygon;
+	}
+}

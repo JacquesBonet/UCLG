@@ -1,0 +1,3 @@
+/* Copyright (C) YOOtheme GmbH, YOOtheme Proprietary Use License (http://www.yootheme.com/license) */
+
+(function(a){a.widgetkit.lazyloaders.slideset=function(c,b){var d=c.find("ul.set");gwidth=b.width=="auto"?c.width():b.width;a.browser.msie&&a.browser.version<8&&d.children().css("display","inline");var e=b.height=="auto"?d.eq(0).outerHeight(true):b.height;d.eq(0).parent().css({height:e});c.css({width:gwidth});d.css({height:e});$script(WIDGETKIT_URL+"/widgets/slideset/js/slideset.js");var f=setInterval(function(){a.fn.slideset&&(a(c).slideset(b).css("visibility","visible"),clearInterval(f))},10)}})(jQuery);
